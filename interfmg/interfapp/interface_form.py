@@ -1,6 +1,6 @@
 # coding=utf-8
 from django import forms
-from .models import Interfaces
+from .models import Interfaces,Case,Owner
 
 class InterfaceForm(forms.Form):
     project = forms.CharField(max_length=20,label="项目名称")
@@ -15,8 +15,6 @@ class InterfaceForm(forms.Form):
     operate = forms.CharField(max_length=10,label="操作")
 
 class CaseForm(forms.Form):
-    #<a href="{%url 'project_delete' item.id %}" onclick="return confirm('确认删除吗？')">删除</a>
-    # <a data-toggle="modal" href="{%url 'project_update' item.id %}">编辑</a>
     summary = forms.CharField(max_length=100,label="用例摘要")
     details = forms.CharField(max_length=255,label="用例详情",widget=forms.Textarea,required=False)
     owner = forms.CharField(max_length=20,label="创建人")
@@ -26,6 +24,7 @@ class CaseForm(forms.Form):
 class OwnerForm(forms.Form):
     name = forms.CharField(max_length=20,label="姓名")
     um = forms.CharField(max_length=30,label="um账号",required=False)
+    role = forms.CharField(choice = Owner.ROLE_TYPE,label="角色")
 
 class ProjectForm(forms.Form):
     #def __init__(self, *args, **kwargs):
