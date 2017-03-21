@@ -6,7 +6,7 @@ from interfapp.models import Project,Interfaces
 from django.views.decorators.csrf import csrf_exempt
 from django.template import RequestContext
 from django.core.paginator import Paginator,EmptyPage,PageNotAnInteger
-
+from django import  forms
 # Create your views here.
 def pro_query(request):
     #分页处理
@@ -28,8 +28,16 @@ def interface_query(request):
 
 def interface_add(request):
     pass
-def owner_qurey(request):
+
+
+def owqry(request):
     pass
+def owadd(request):
+    pass
+def owdel(request):
+    pass
+
+
 def case_query(request):
     pass
 def case_update(request):
@@ -37,4 +45,20 @@ def case_update(request):
 def project_delete(request):
     pass
 def project_update(request):
+    pass
+
+@csrf_exempt
+def project_add(request):
+    error = []
+    if request.method == 'POST':
+        form = ProjectForm(request.POST)
+        if form.is_valid():
+            data = form.cleand_data
+            projectName = data['projectName']
+            owner = data['owner']
+
+
+
+
+
     pass

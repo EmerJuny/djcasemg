@@ -24,4 +24,8 @@ urlpatterns = [
     url(r'^case_edit/',views.case_update,name='case_edit'),
     url(r'^project_delete/',views.project_delete,name='project_delete'),
     url(r'^project_update/',views.project_update,name='project_update'),
+    url(r'^project_add/',views.project_update,name='project_add'),
+    url(r'^owcf/$',views.owqry,name='owcf'),
+    url(r'^owadd/$',views.owadd,name='owadd'),
+    url(r'^owdel-(?P<id>\d+)/$',views.owdel,name='owdel'),
 ]

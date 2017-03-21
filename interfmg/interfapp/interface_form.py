@@ -24,7 +24,7 @@ class CaseForm(forms.Form):
 class OwnerForm(forms.Form):
     name = forms.CharField(max_length=20,label="姓名")
     um = forms.CharField(max_length=30,label="um账号",required=False)
-    role = forms.CharField(choice = Owner.ROLE_TYPE,label="角色")
+    role = forms.CharField(max_length=5,label="角色")
 
 class ProjectForm(forms.Form):
     #def __init__(self, *args, **kwargs):
