@@ -90,7 +90,7 @@ ENV/
 
 
 #interfmg/.idea
-interfmg/.idea
+interfmg/.idea/
 
 #settings.py
 settings.*
