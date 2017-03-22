@@ -3,15 +3,19 @@ from django.db import models
 
 # Create your models here.
 class Owner(models.Model):
-	ROLE_TYPE = (('T','测试'),('D','开发'),)
 	name = models.CharField(max_length=20)
 	um  = models.CharField(max_length=30,null=True)
-	role = models.CharField(max_length=1,choices=ROLE_TYPE)
+	role = models.CharField(max_length=4)
+
+	def __unicode__(self):
+		return self.name
 
 class Project(models.Model):
-	name  = models.CharField(max_length=20)
-	dels = models.BooleanField(default=False)
-	owner = models.ForeignKey(Owner,on_delete=models.CASCADE)
+	projectName  = models.CharField(max_length=20)
+	owner = models.ForeignKey(Owner)
+
+	def __unicode__(self):
+		return self.name
 
 class Case(models.Model):
 	summary = models.CharField(max_length=100)
@@ -20,7 +24,6 @@ class Case(models.Model):
 	createtime = models.DateField(auto_now_add=True)
 	lastUpdateTime = models.DateField()
 	# project = models.ForeignKey(Project,on_delete=models.CASCADE)
-	dels = models.BooleanField(default=False)
 
 
 class Interfaces(models.Model):

@@ -1,6 +1,6 @@
 # coding=utf-8
 from django import forms
-from .models import Interfaces,Case,Owner
+from interfapp.models import Interfaces,Case,Owner
 
 class InterfaceForm(forms.Form):
     project = forms.CharField(max_length=20,label="项目名称")
@@ -22,17 +22,20 @@ class CaseForm(forms.Form):
     operate = forms.CharField(max_length=10,label="操作")
 
 class OwnerForm(forms.Form):
+    # def __init__(self,*args,**kwargs):
+    #     super(OwnerForm,self).__init__(*args,**kwargs)
+    ROLE_TYPE=(('测试','测试'),('开发','开发'),)
     name = forms.CharField(max_length=20,label="姓名")
     um = forms.CharField(max_length=30,label="um账号",required=False)
-    role = forms.CharField(max_length=5,label="角色")
+    role = forms.CharField(widget=forms.widgets.Select(choices=ROLE_TYPE),label="角色",required=True)
+
 
 class ProjectForm(forms.Form):
     #def __init__(self, *args, **kwargs):
     #    super(ProjectForm, self).__init__(*args, **kwargs)
+
     projectName = forms.CharField(max_length=20,label="项目名称")
     owner = forms.CharField(max_length=20,label="开发负责人")
-    state = forms.CharField(max_length=6,label="状态")
-    operate = forms.CharField(max_length=10,label="操作")
 
 
 

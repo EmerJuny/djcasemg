@@ -17,14 +17,13 @@ from django.conf.urls import url
 from interfapp import views
 
 urlpatterns = [
-    url(r'^project_conf/',views.pro_query,name='project_conf'),
-    url(r'^owner_conf/',views.owner_qurey,name='owner_conf'),
     url(r'^case_query/',views.case_query,name='case_query'),
     url(r'^interface_conf/',views.interface_query,name='interface_conf'),
     url(r'^case_edit/',views.case_update,name='case_edit'),
-    url(r'^project_delete/',views.project_delete,name='project_delete'),
-    url(r'^project_update/',views.project_update,name='project_update'),
-    url(r'^project_add/',views.project_update,name='project_add'),
+    url(r'^projdel/',views.projdel,name='projdel'),
+    url(r'^projconf/$',views.projconf,name='projconf'),
+    url(r'^projupd/',views.projupd,name='projupd'),
+    url(r'^projadd/$',views.projadd,name='projadd'),
     url(r'^owcf/$',views.owqry,name='owcf'),
     url(r'^owadd/$',views.owadd,name='owadd'),
     url(r'^owdel-(?P<id>\d+)/$',views.owdel,name='owdel'),
