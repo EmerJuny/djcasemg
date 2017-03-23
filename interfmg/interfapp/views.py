@@ -12,7 +12,7 @@ from interfapp.models import Owner
 
 def projconf(request):
     #分页处理
-    limit = 3
+    limit = 15
     data = Project.objects.all()
     paginator = Paginator(data,limit)
     page = request.GET.get('page')
@@ -25,15 +25,33 @@ def projconf(request):
     #取数
     return render_to_response('projconf.html',{'data':data})
 
-def interface_query(request):
-    pass
+@csrf_exempt
+def projadd(request):
+    error = []
+    if request.method == 'POST':
+        form = ProjectForm(request.POST)
+        if form.is_valid():
+            data = form.cleaned_data
+            projectName = data['projectName']
+            owner = data['owner']
+            data = Project(projectName = projectName,owner=owner)
+            data.save()
+            return HttpResponseRedirect('/interfapp/projconf/')
+        else:
+            return render_to_response("projadd.html", locals(), RequestContext(request))
+    else:
+        form = ProjectForm()
+        return render_to_response('projadd.html', {'form': form}, context_instance=RequestContext(request))
 
-def interface_add(request):
-    pass
+@csrf_exempt
+def projdel(request,id):
+    entry = get_object_or_404(Project,pk=int(id))
+    entry.delete()
+    return HttpResponseRedirect('/interfapp/projconf/')
 
 
 def owqry(request):
-    limit = 3 # 每页显示的记录数
+    limit = 15 # 每页显示的记录数
     data = Owner.objects.all().order_by("id")
     paginator = Paginator(data, limit)  # 实例化一个分页对象
     page = request.GET.get('page')  # 获取页码
@@ -65,44 +83,31 @@ def owadd(request):
         form = OwnerForm()
         return render_to_response('owadd.html', {'form': form}, context_instance=RequestContext(request))
 
-
-
-
 @csrf_exempt
 def owdel(request,id):
     entry = get_object_or_404(Owner,pk=int(id))
     entry.delete()
     return HttpResponseRedirect('/interfapp/owcf/')
 
+
+
+
+
+def interface_query(request):
+    pass
+
+def interface_add(request):
+    pass
+
+
+
 def case_query(request):
     pass
 def case_update(request):
     pass
 
-@csrf_exempt
-def projdel(request,id):
-    entry = get_object_or_404(Project,pk=int(id))
-    entry.delete()
-    return HttpResponseRedirect('/interfapp/projconf/')
+
 
 def projupd(request):
     pass
 
-@csrf_exempt
-def projadd(request):
-    error = []
-    if request.method == 'POST':
-        form = ProjectForm(request.POST)
-        if form.is_valid():
-            data = form.cleaned_data
-            # role_list = request.POST.getlist('role')
-            projectName = data['projectName']
-            owner = Owner.objects.filter(role='开发')
-            data = Project(projectName = projectName,owner=owner)
-            data.save()
-            return HttpResponseRedirect('/interfapp/projconf/')
-        else:
-            return render_to_response("projadd.html", locals(), RequestContext(request))
-    else:
-        form = ProjectForm()
-        return render_to_response('projadd.html', {'form': form}, context_instance=RequestContext(request))

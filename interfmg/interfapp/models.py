@@ -1,21 +1,21 @@
+from __future__ import unicode_literals
 #coding=utf-8
 from django.db import models
-
 # Create your models here.
+
+# @python_2_unicode_compatible
 class Owner(models.Model):
 	name = models.CharField(max_length=20)
 	um  = models.CharField(max_length=30,null=True)
 	role = models.CharField(max_length=4)
-
 	def __unicode__(self):
 		return self.name
 
 class Project(models.Model):
 	projectName  = models.CharField(max_length=20)
-	owner = models.ForeignKey(Owner)
-
+	owner = models.CharField(max_length=20,null=True)
 	def __unicode__(self):
-		return self.name
+		return self.projectName
 
 class Case(models.Model):
 	summary = models.CharField(max_length=100)

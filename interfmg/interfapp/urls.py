@@ -27,4 +27,5 @@ urlpatterns = [
     url(r'^owcf/$',views.owqry,name='owcf'),
     url(r'^owadd/$',views.owadd,name='owadd'),
     url(r'^owdel-(?P<id>\d+)/$',views.owdel,name='owdel'),
+    url(r'^projdel-(?P<id>\d+)/$',views.projdel,name='projdel'),
 ]
