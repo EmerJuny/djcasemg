@@ -17,15 +17,18 @@ from django.conf.urls import url
 from interfapp import views
 
 urlpatterns = [
-    url(r'^case_query/',views.case_query,name='case_query'),
     url(r'^interface_conf/',views.interface_query,name='interface_conf'),
-    url(r'^case_edit/',views.case_update,name='case_edit'),
     url(r'^projdel/',views.projdel,name='projdel'),
     url(r'^projconf/$',views.projconf,name='projconf'),
-    url(r'^projupd/',views.projupd,name='projupd'),
     url(r'^projadd/$',views.projadd,name='projadd'),
+    url(r'^projdel-(?P<id>\d+)/$',views.projdel,name='projdel'),
+    url(r'^projupd/',views.projupd,name='projupd'),
     url(r'^owcf/$',views.owqry,name='owcf'),
     url(r'^owadd/$',views.owadd,name='owadd'),
     url(r'^owdel-(?P<id>\d+)/$',views.owdel,name='owdel'),
-    url(r'^projdel-(?P<id>\d+)/$',views.projdel,name='projdel'),
+    url(r'^casecf/$',views.casecf,name='casecf'),
+    url(r'^caseadd/$',views.caseadd,name='caseadd'),
+    url(r'^casedel-(?P<id>\d+)/$',views.casedel,name='casedel'),
+    url(r'^caseupd/',views.caseupd,name='caseupd'),
+
 ]

@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <title>添加人员信息</title>
+    <title>添加项目信息</title>
     <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}"/>
     <link rel="stylesheet" href="{% static 'css/css.css' %}"/>
     <script type="text/javascript" src="{% static 'js/jquery1.9.0.min.js' %}"></script>
@@ -89,14 +89,14 @@ window.onload = function() {
         <div class="right_cont">
             <ul class="breadcrumb">当前位置：
                 <!--<a href="#">首页</a> <span class="divider">/</span>-->
-                <a href="#">基础信息维护</a> <span class="divider">/</span>添加人员信息
+                <a href="#">基础信息维护</a> <span class="divider">/</span>用例添加
             </ul>
 
             {% if form.errors %}
             <p style="color:red;" 请输入有效数据{{ form.errors|pluralize }}></p>
             {% endif %}
             <!--添加项目表单-->
-            <div class="title-right"><strong>人员信息添加</strong></div>
+            <div class="title-right"><strong>用例添加</strong></div>
             <form action="" class="form-inline" method="post" role="form">
                 {% csrf_token %}
             <table class="form-control offset4">

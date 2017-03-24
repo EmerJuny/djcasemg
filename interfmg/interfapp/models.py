@@ -1,5 +1,5 @@
-from __future__ import unicode_literals
 #coding=utf-8
+from __future__ import unicode_literals
 from django.db import models
 # Create your models here.
 
@@ -18,12 +18,16 @@ class Project(models.Model):
 		return self.projectName
 
 class Case(models.Model):
+	id = models.IntegerField(primary_key=True)
 	summary = models.CharField(max_length=100)
 	details = models.TextField(max_length=255,null=True)
-	owner =  models.ForeignKey(Owner,on_delete=models.CASCADE)
-	createtime = models.DateField(auto_now_add=True)
-	lastUpdateTime = models.DateField()
+	owner =  models.CharField(max_length=10)
+	project = models.CharField(max_length=60,null=True,blank=True)
+	# createtime = models.DateField(auto_now_add=True)
+	# lastUpdateTime = models.DateField(auto_now_add=True)
 	# project = models.ForeignKey(Project,on_delete=models.CASCADE)
+	def __unicode__(self):
+		return self.id
 
 
 class Interfaces(models.Model):

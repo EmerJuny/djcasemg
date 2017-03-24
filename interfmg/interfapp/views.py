@@ -2,7 +2,7 @@
 from django.shortcuts import render,render_to_response,get_object_or_404
 from django.http import HttpResponse,HttpResponseRedirect
 from interfapp.interface_form import InterfaceForm,ProjectForm,CaseForm,OwnerForm
-from interfapp.models import Project,Interfaces
+from interfapp.models import Project,Interfaces,Case
 from django.views.decorators.csrf import csrf_exempt
 from django.template import RequestContext
 from django.core.paginator import Paginator,EmptyPage,PageNotAnInteger
@@ -101,9 +101,50 @@ def interface_add(request):
 
 
 
-def case_query(request):
-    pass
-def case_update(request):
+def casecf(request):
+    limit = 10 # 每页显示的记录数
+    data = Case.objects.all().values('id','summary','details','owner','project','createtime').order_by("id")
+    paginator = Paginator(data, limit)  # 实例化一个分页对象
+    page = request.GET.get('page')  # 获取页码
+    try:
+        data = paginator.page(page)  # 获取某页对应的记录
+    except PageNotAnInteger:  # 如果页码不是个整数
+        data = paginator.page(1)  # 取第一页的记录
+    except EmptyPage:  # 如果页码太大，没有相应的记录
+        data = paginator.page(paginator.num_pages)  # 取最后一页的记录
+    return render_to_response('casecf.html',{'data':data})
+
+@csrf_exempt
+def caseadd(request):
+    error = []
+    if request.method == 'POST':
+        form = CaseForm(request.POST)
+        if form.is_valid():
+            data = form.cleaned_data
+            id = data['id']
+            summary = data['summary']
+            details = data['details']
+            owner = data['owner']
+            project = data['project']
+            # createtime = data['createtime']
+            # lastUpdateTime = data['lastUpdateTime'] ,createtime=createtime,lastUpdateTime=lastUpdateTime
+            data = Owner(id=id,summary=summary,details=details,role=owner,project=project)
+            data.save()
+            return HttpResponseRedirect('/interfapp/casecf/')
+        else:
+            return render_to_response("caseadd.html", locals(), RequestContext(request))
+    else:
+        form = CaseForm()
+        proname_list = Project.objects.values_list("projectName")
+        ow_list = Owner.objects.values_list("name").filter(role='测试')
+        return render_to_response('caseadd.html', {'form': form}, context_instance=RequestContext(request))
+
+def casedel(request):
+    entry = get_object_or_404(Case,pk=int(id))
+    entry.delete()
+    return HttpResponseRedirect('/interfapp/casecf/')
+
+def caseupd(request):
     pass
 
 
