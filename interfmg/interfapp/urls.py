@@ -17,7 +17,8 @@ from django.conf.urls import url
 from interfapp import views
 
 urlpatterns = [
-    url(r'^interface_conf/',views.interface_query,name='interface_conf'),
+    url(r'^intfcf/',views.intfcf,name='intfcf'),
+    url(r'^intfdel/',views.intfdel,name='intfdel'),
     url(r'^projdel/',views.projdel,name='projdel'),
     url(r'^projconf/$',views.projconf,name='projconf'),
     url(r'^projadd/$',views.projadd,name='projadd'),

@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <title>添加人员信息</title>
+    <title>添加项目信息</title>
     <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}"/>
     <link rel="stylesheet" href="{% static 'css/css.css' %}"/>
     <script type="text/javascript" src="{% static 'js/jquery1.9.0.min.js' %}"></script>
@@ -84,40 +84,62 @@ window.onload = function() {
 
     </script>
 
-
     <div class="right" id="mainFrame">
         <div class="right_cont">
             <ul class="breadcrumb">当前位置：
                 <!--<a href="#">首页</a> <span class="divider">/</span>-->
-                <a href="#">基础信息维护</a> <span class="divider">/</span>添加人员信息
+                <a href=" {%url 'intfcf' %} ">基础信息维护</a> <span class="divider">/</span>接口添加
             </ul>
 
             {% if form.errors %}
             <p style="color:red;" 请输入有效数据{{ form.errors|pluralize }}></p>
             {% endif %}
             <!--添加项目表单-->
-            <div class="title-right"><strong>人员信息添加</strong></div>
+            <div class="title-right"><strong>用例添加</strong></div>
+            <div class="alert">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                温馨提示：新增用例
+            </div>
             <form action="" class="form-inline" method="post" role="form">
-                {% csrf_token %}
-            <table class="form-control offset4">
-            {{ form.as_table }}
-            </table>
-		    &nbsp&nbsp&nbsp&nbsp
-            <input class="btn btn-info form-control offset5"  type = "submit" value = "提 交" />
+                <div style="width:900px;margin:auto;">
+             <!--不用ModelForm的样式-->
+            <!--{% csrf_token %}-->
+            <!--<table class="form-control offset4">-->
+            <!--{{ form.as_table }}-->
+            <!--</table>-->
+		    <!--&nbsp&nbsp&nbsp&nbsp-->
+            <!--<input class="btn btn-info form-control offset5 "  type = "submit" value = "提 交" />-->
+             <!--不用ModelForm的样式-->
+            <table class="table table-bordered">
+                    <tr>
+                        <td align="right" align="right" nowrap="nowrap" bgcolor="#f1f1f1">所属项目：</td>
+                        <td align="left">{{form.projectName}}</td>
+                    </tr>
+                    <tr>
+                        <td align="right" nowrap="nowrap" bgcolor="#f1f1f1">创建人：</td>
+                        <td align="left">{{form.owner}}</td>
+                    </tr>
+                    <tr>
+                        <td align="right" nowrap="nowrap" bgcolor="#f1f1f1">用例摘要：</td>
+                        <td> {{form.summary}}</td>
+                    </tr>
+                   <tr>
+                        <td align="right" nowrap="nowrap" bgcolor="#f1f1f1">用例详情：</td>
+                        <td> {{form.details}} </td>
+                    </tr>
+                </table>
+                <table class="margin-bottom-20  table no-border">
+                    <tr>
+                        <td class="text-center"><input type="submit"  value="确定" class="btn btn-info  "
+                                                       style="width:80px;"/></td>
+                    </tr>
+                </table>
+            </div>
             </form>
             </div>
-            <!--<p>-->
-                <!--{% if data.has_previous %}-->
-                <!--<a href="?page={{ data.previous_page_number }}">上一页</a>-->
-                <!--{% endif %}-->
-                <!--{# data.paginator.number_pages 返回总页数 #}-->
-                <!--第{{ data.number }}页 | 共{{ data.paginator.num_pages }}页-->
-                <!--{% if data.has_next %}-->
-                <!--<a href="?page={{ data.next_page_number }}">下一页</a>-->
-                <!--{% endif %}-->
-            <!--</p>-->
+
             <div id="footer">版权所有：平安证券保障团队 &copy; 2017&nbsp;&nbsp;&nbsp;&nbsp;</div>
-            <script>
+ <script>
   !function(){
      laydate.skin('molv');
      laydate({elem: '#Calendar'});
@@ -125,7 +147,7 @@ window.onload = function() {
      laydate({elem: '#Calendar2'});
    }();
 
-            </script>
+</script>
         </div>
     </div>
 

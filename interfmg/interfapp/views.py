@@ -33,8 +33,11 @@ def projadd(request):
         if form.is_valid():
             data = form.cleaned_data
             projectName = data['projectName']
-            owner = data['owner']
-            data = Project(projectName = projectName,owner=owner)
+            ownerName = data['ownerName']
+            # print(form.ownerName)
+            ownerId = ownerName.id
+            print(ownerId)
+            data = Project(projectName = projectName,ownerName=ownerName,ownerId=ownerId)
             data.save()
             return HttpResponseRedirect('/interfapp/projconf/')
         else:
@@ -93,17 +96,48 @@ def owdel(request,id):
 
 
 
-def interface_query(request):
-    pass
+def intfcf(request):
+    limit = 10 # 每页显示的记录数
+    data = Interfaces.objects.all().filter(dels='0').order_by("id")
+    paginator = Paginator(data, limit)  # 实例化一个分页对象
+    page = request.GET.get('page')  # 获取页码
+    try:
+        data = paginator.page(page)  # 获取某页对应的记录
+    except PageNotAnInteger:  # 如果页码不是个整数
+        data = paginator.page(1)  # 取第一页的记录
+    except EmptyPage:  # 如果页码太大，没有相应的记录
+        data = paginator.page(paginator.num_pages)  # 取最后一页的记录
+    return render_to_response('intfcf.html',{'data':data})
 
-def interface_add(request):
-    pass
+def intfadd(request):
+    error = []
+    if request.method == 'POST':
+        form = InterfaceForm(request.POST)
+        if form.is_valid():
+            data = form.cleaned_data
+            # role_list = request.POST.getlist('role')
+            name = data['name']
+            um = data['um']
+            role = data['role']
+            data = Owner(name=name,um=um,role=role)
+            data.save()
+            return HttpResponseRedirect('/interfapp/owcf/')
+        else:
+            return render_to_response("owadd.html", locals(), RequestContext(request))
+    else:
+        form = OwnerForm()
+        return render_to_response('owadd.html', {'form': form}, context_instance=RequestContext(request))
 
+
+def intfdel(request,id):
+    entry = get_object_or_404(Interfaces,pk=int(id))
+    entry.update(dels='1')
+    return HttpResponseRedirect('/interfapp/intfcf/')
 
 
 def casecf(request):
     limit = 10 # 每页显示的记录数
-    data = Case.objects.all().values('id','summary','details','owner','project','createtime').order_by("id")
+    data = Case.objects.all().values('id','summary','details','owner','project').order_by("id")
     paginator = Paginator(data, limit)  # 实例化一个分页对象
     page = request.GET.get('page')  # 获取页码
     try:
@@ -121,14 +155,14 @@ def caseadd(request):
         form = CaseForm(request.POST)
         if form.is_valid():
             data = form.cleaned_data
-            id = data['id']
+            # id = data['id']
             summary = data['summary']
             details = data['details']
             owner = data['owner']
-            project = data['project']
+            project = data['projectName']
             # createtime = data['createtime']
             # lastUpdateTime = data['lastUpdateTime'] ,createtime=createtime,lastUpdateTime=lastUpdateTime
-            data = Owner(id=id,summary=summary,details=details,role=owner,project=project)
+            data = Case(summary=summary,details=details,owner=owner,project=project)
             data.save()
             return HttpResponseRedirect('/interfapp/casecf/')
         else:
@@ -139,14 +173,14 @@ def caseadd(request):
         ow_list = Owner.objects.values_list("name").filter(role='测试')
         return render_to_response('caseadd.html', {'form': form}, context_instance=RequestContext(request))
 
-def casedel(request):
+def casedel(request,id):
     entry = get_object_or_404(Case,pk=int(id))
     entry.delete()
     return HttpResponseRedirect('/interfapp/casecf/')
 
 def caseupd(request):
     pass
-
+    # X.save(update_fields=['fields'])  更新时指定列保存
 
 
 def projupd(request):
