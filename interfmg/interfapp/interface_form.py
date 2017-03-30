@@ -41,9 +41,9 @@ class ProjectForm(forms.Form):
     # for i in range(len(owners)):
     #     dev.append((owners[i][0],owners[i][0]))
     projectName = forms.CharField(max_length=20,label="项目名称")
-    ownerName = forms.ModelChoiceField(label="开发负责人",queryset=Owner.objects.all())
-    ownerId = forms.IntegerField(label="开发负责人",widget=forms.widgets.TextInput(attrs={'type':'hidden'}),required=False)
-    # print(ownerName._get_choices)
+    name = forms.ModelChoiceField(label="开发负责人",queryset=Owner.objects.all())
+    form = ProjectForm(request.GET)
+    if form.
     # def __init__(self,*args,**kwargs):
     #     super(ProjectForm,self).__init__(*args,**kwargs)
     #     self.fields['proj_role'].choice=((i.id,i.name) for i in Owner.objects.all())

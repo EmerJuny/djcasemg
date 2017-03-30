@@ -54,8 +54,8 @@ window.onload = function() {
 <div id="my_menu" class="sdmenu">
      <div >
 		<span>基础信息维护</span>
-		<a href="{%url 'projconf' %}">项目信息</a>
         <a href="{%url 'owcf' %}">人员信息</a>
+		<a href="{%url 'projconf' %}">项目信息</a>
 	</div>
     <div >
 		<span>用例维护</span>
@@ -93,7 +93,7 @@ window.onload = function() {
          <p style="color:red;" 请输入有效数据{{ form.errors|pluralize }}></p>
      {% endif %}
 
-     <form action="" method="get" role="form">
+     <form action="" method="get" role="form">{% csrf_token %}
          <div class="form-inline"></div>
      </form>
          <table class="table table-bordered table-striped table-hover">
@@ -109,8 +109,8 @@ window.onload = function() {
        {% for item in data %}
        <tr align="center">
            <td nowrap="nowrap">{{item.projectName}}</td>
-           <td nowrap="nowrap">{{item.owner}}</td>
-           <td nowrap="nowrap"><a href="{%url 'projdel' item.id%}" onclick="return confirm('确认删除吗？')">删除</a>
+           <td nowrap="nowrap">{{item.name}}</td>
+           <td nowrap="nowrap"><a href="{%url 'projdel' item.id%}" onclick="return confirm('确认删除吗？')">删除</a></td>
                <!--<a data-toggle="modal" href="{%url 'projupd'%}">编辑</a></td>-->
        </tr>
        {% endfor %}

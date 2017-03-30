@@ -1,8 +1,12 @@
 #coding=utf-8
+
 from __future__ import unicode_literals
 from django.db import models
 from django.utils.timezone import now
 # Create your models here.
+
+
+
 
 # @python_2_unicode_compatible
 class Owner(models.Model):
@@ -11,11 +15,12 @@ class Owner(models.Model):
 	role = models.CharField(max_length=4)
 	def __unicode__(self):
 		return self.name
-
+def get_sentinel_owner():
+	return Owner.objects.get_or_create(name=Project.objects.get(name))[0]
 class Project(models.Model):
 	projectName  = models.CharField(max_length=20)
-	ownerId = models.ForeignKey(Owner,on_delete=models.PROTECT,related_name='ownerId')
-	ownerName  = models.CharField(max_length=20)
+	name = models.ForeignKey(Owner) #,limit_choices_to={'is_staff':'True'}
+	# ownerName  = models.CharField(max_length=20)
 	def __unicode__(self):
 		return self.projectName
 

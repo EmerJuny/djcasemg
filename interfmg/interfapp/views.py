@@ -8,6 +8,8 @@ from django.template import RequestContext
 from django.core.paginator import Paginator,EmptyPage,PageNotAnInteger
 from django import  forms
 from interfapp.models import Owner
+from django.views.decorators.csrf import csrf_protect
+from django.db.models.deletion import ProtectedError
 # Create your views here.
 
 def projconf(request):
@@ -33,12 +35,8 @@ def projadd(request):
         if form.is_valid():
             data = form.cleaned_data
             projectName = data['projectName']
-            ownerName = data['ownerName']
-            # print(form.ownerName)
-            ownerId = ownerName.id
-            print(ownerId)
-            print(ownerName.name)
-            data = Project(projectName = projectName,ownerName=ownerName,ownerId=ownerId)
+            name = data['name']
+            data = Project(projectName = projectName,name=name)
             data.save()
             return HttpResponseRedirect('/interfapp/projconf/')
         else:
@@ -47,12 +45,15 @@ def projadd(request):
         form = ProjectForm()
         return render_to_response('projadd.html', {'form': form}, context_instance=RequestContext(request))
 
-@csrf_exempt
+# @csrf_protect
 def projdel(request,id):
     entry = get_object_or_404(Project,pk=int(id))
-    entry.delete()
-    return HttpResponseRedirect('/interfapp/projconf/')
-
+    error =[]
+    try:
+        entry.delete()
+    except ProtectedError:
+        error='删除有依赖项'
+        return render(request,'projconf.html',error)
 
 def owqry(request):
     limit = 15 # 每页显示的记录数
