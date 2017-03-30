@@ -37,6 +37,7 @@ def projadd(request):
             # print(form.ownerName)
             ownerId = ownerName.id
             print(ownerId)
+            print(ownerName.name)
             data = Project(projectName = projectName,ownerName=ownerName,ownerId=ownerId)
             data.save()
             return HttpResponseRedirect('/interfapp/projconf/')
