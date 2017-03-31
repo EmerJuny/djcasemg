@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <title>添加项目信息</title>
+    <title>添加接口信息</title>
     <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}"/>
     <link rel="stylesheet" href="{% static 'css/css.css' %}"/>
     <script type="text/javascript" src="{% static 'js/jquery1.9.0.min.js' %}"></script>
@@ -88,17 +88,17 @@ window.onload = function() {
         <div class="right_cont">
             <ul class="breadcrumb">当前位置：
                 <!--<a href="#">首页</a> <span class="divider">/</span>-->
-                <a href=" {%url 'intfcf' %} ">基础信息维护</a> <span class="divider">/</span>接口添加
+                <a href=" {%url 'intfadd' %} ">基础信息维护</a> <span class="divider">/</span>接口信息添加
             </ul>
 
             {% if form.errors %}
             <p style="color:red;" 请输入有效数据{{ form.errors|pluralize }}></p>
             {% endif %}
             <!--添加项目表单-->
-            <div class="title-right"><strong>用例添加</strong></div>
+            <div class="title-right"><strong>接口信息添加</strong></div>
             <div class="alert">
                 <button type="button" class="close" data-dismiss="alert">&times;</button>
-                温馨提示：新增用例
+                温馨提示：新增接口信息
             </div>
             <form action="" class="form-inline" method="post" role="form">
                 <div style="width:900px;margin:auto;">

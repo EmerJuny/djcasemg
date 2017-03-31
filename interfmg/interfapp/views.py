@@ -45,15 +45,14 @@ def projadd(request):
         form = ProjectForm()
         return render_to_response('projadd.html', {'form': form}, context_instance=RequestContext(request))
 
-# @csrf_protect
 def projdel(request,id):
     entry = get_object_or_404(Project,pk=int(id))
-    error =[]
-    try:
+    p = Project.objects.get(id=id)
+    if (  p.case_set.all().count()>0 ) :
+        return HttpResponse('有关联项不能删除')
+    else:
         entry.delete()
-    except ProtectedError:
-        error='删除有依赖项'
-        return render(request,'projconf.html',error)
+        return HttpResponseRedirect('/interfapp/projconf')
 
 def owqry(request):
     limit = 15 # 每页显示的记录数
@@ -75,7 +74,6 @@ def owadd(request):
         form = OwnerForm(request.POST)
         if form.is_valid():
             data = form.cleaned_data
-            # role_list = request.POST.getlist('role')
             name = data['name']
             um = data['um']
             role = data['role']
@@ -91,8 +89,13 @@ def owadd(request):
 @csrf_exempt
 def owdel(request,id):
     entry = get_object_or_404(Owner,pk=int(id))
-    entry.delete()
-    return HttpResponseRedirect('/interfapp/owcf/')
+    p = Owner.objects.get(id=id)
+    if ( ( p.project_set.all().count()>0) or (p.case_set.all())>0 ) :
+        return HttpResponse('有关联项不能删除')
+    else:
+        print('无关联',entry)
+        entry.delete()
+        return HttpResponseRedirect('/interfapp/owcf/')
 
 
 
@@ -117,18 +120,23 @@ def intfadd(request):
         form = InterfaceForm(request.POST)
         if form.is_valid():
             data = form.cleaned_data
-            # role_list = request.POST.getlist('role')
+            projectName = data['projectName']
+            interfName = data['interfName']
+            interfDns=data['interfDns']
+            interfPath=data['interfPath']
+            interfMethod=data['interfMethod']
+            interfParams = data['interfParams']
             name = data['name']
-            um = data['um']
-            role = data['role']
-            data = Owner(name=name,um=um,role=role)
+            summary = data['summary']
+            data = Interfaces(projectName=projectName,interfName=interfName,interfDns=interfDns,
+             interfPath=interfPath,interfParams=interfParams,interfMethod=interfMethod,name=name,summary=summary)
             data.save()
-            return HttpResponseRedirect('/interfapp/owcf/')
+            return HttpResponseRedirect('/interfapp/intfcf/')
         else:
-            return render_to_response("owadd.html", locals(), RequestContext(request))
+            return render_to_response("intfadd.html", locals(), RequestContext(request))
     else:
-        form = OwnerForm()
-        return render_to_response('owadd.html', {'form': form}, context_instance=RequestContext(request))
+        form = InterfaceForm()
+        return render_to_response('intfadd.html', {'form': form}, context_instance=RequestContext(request))
 
 
 def intfdel(request,id):
@@ -139,7 +147,7 @@ def intfdel(request,id):
 
 def casecf(request):
     limit = 10 # 每页显示的记录数
-    data = Case.objects.all().values('id','summary','details','owner','project').order_by("id")
+    data = Case.objects.all().order_by("id") #.values('id','summary','details','owner','project')
     paginator = Paginator(data, limit)  # 实例化一个分页对象
     page = request.GET.get('page')  # 获取页码
     try:
@@ -160,19 +168,19 @@ def caseadd(request):
             # id = data['id']
             summary = data['summary']
             details = data['details']
-            owner = data['owner']
-            project = data['projectName']
+            name = data['name']
+            projectName = data['projectName']
             # createtime = data['createtime']
             # lastUpdateTime = data['lastUpdateTime'] ,createtime=createtime,lastUpdateTime=lastUpdateTime
-            data = Case(summary=summary,details=details,owner=owner,project=project)
+            data = Case(summary=summary,details=details,name=name,projectName=projectName)
             data.save()
             return HttpResponseRedirect('/interfapp/casecf/')
         else:
             return render_to_response("caseadd.html", locals(), RequestContext(request))
     else:
         form = CaseForm()
-        proname_list = Project.objects.values_list("projectName")
-        ow_list = Owner.objects.values_list("name").filter(role='测试')
+        # proname_list = Project.objects.values_list("projectName")
+        # ow_list = Owner.objects.values_list("name").filter(role='测试')
         return render_to_response('caseadd.html', {'form': form}, context_instance=RequestContext(request))
 
 def casedel(request,id):

@@ -18,6 +18,7 @@ from interfapp import views
 
 urlpatterns = [
     url(r'^intfcf/',views.intfcf,name='intfcf'),
+    url(r'^intfadd/',views.intfadd,name='intfadd'),
     url(r'^intfdel/',views.intfdel,name='intfdel'),
     url(r'^projdel/',views.projdel,name='projdel'),
     url(r'^projconf/$',views.projconf,name='projconf'),
