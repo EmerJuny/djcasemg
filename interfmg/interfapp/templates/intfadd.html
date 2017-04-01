@@ -102,30 +102,35 @@ window.onload = function() {
             </div>
             <form action="" class="form-inline" method="post" role="form">
                 <div style="width:900px;margin:auto;">
-             <!--不用ModelForm的样式-->
-            <!--{% csrf_token %}-->
-            <!--<table class="form-control offset4">-->
-            <!--{{ form.as_table }}-->
-            <!--</table>-->
-		    <!--&nbsp&nbsp&nbsp&nbsp-->
-            <!--<input class="btn btn-info form-control offset5 "  type = "submit" value = "提 交" />-->
-             <!--不用ModelForm的样式-->
             <table class="table table-bordered">
                     <tr>
-                        <td align="right" align="right" nowrap="nowrap" bgcolor="#f1f1f1">所属项目：</td>
-                        <td align="left">{{form.projectName}}</td>
+                        <td width=8% align="left" align="left" nowrap="nowrap" bgcolor="#f1f1f1" >接口名称：</td>
+                        <td width=12% align="left">{{form.interfName}}</td>
+                        <td width=8%  align="left"  nowrap="nowrap" bgcolor="#f1f1f1">项目名称：</td>
+                        <td width=45%  align="left">{{form.projectName}}</td>
                     </tr>
                     <tr>
-                        <td align="right" nowrap="nowrap" bgcolor="#f1f1f1">创建人：</td>
-                        <td align="left">{{form.owner}}</td>
+                        <!--<td align="right" align="right" nowrap="nowrap" bgcolor="#f1f1f1">用例编号：</td>-->
+                        <!--<td align="left">{{form.projectName}}</td>-->
+                        <td width="8%" align="left"  nowrap="nowrap" bgcolor="#f1f1f1">用例摘要：</td>
+                        <td align="left">{{form.summary}}</td>
+                        <td width="8%" align="left"  nowrap="nowrap" bgcolor="#f1f1f1">测试负责人：</td>
+                        <td align="left">{{form.name}}</td>
                     </tr>
                     <tr>
-                        <td align="right" nowrap="nowrap" bgcolor="#f1f1f1">用例摘要：</td>
-                        <td> {{form.summary}}</td>
+                        <td width=8% align="left" nowrap="nowrap" bgcolor="#f1f1f1">请求地址：</td>
+                        <td width=12% align="left"> {{form.interfDns}}</td>
+                        <td width=8% align="left" nowrap="nowrap" bgcolor="#f1f1f1">路径：</td>
+                        <td width=35% align="left"> {{form.interfPath}}</td>
+
+                    </tr>
+                    <tr>
+                        <td width=8% align="left" nowrap="nowrap" bgcolor="#f1f1f1">请求方法：</td>
+                        <td width=20% align="left"> {{form.interfMethod}}</td>
                     </tr>
                    <tr>
-                        <td align="right" nowrap="nowrap" bgcolor="#f1f1f1">用例详情：</td>
-                        <td> {{form.details}} </td>
+                        <td  align="left" nowrap="nowrap" bgcolor="#f1f1f1">请求参数：</td>
+                        <td colspan="3" > {{form.interfParams}} </td>
                     </tr>
                 </table>
                 <table class="margin-bottom-20  table no-border">

@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>接口信息配置</title>
+<title>执行接口</title>
 <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}" />
 <link rel="stylesheet" href="{% static 'css/css.css' %}" />
 <script type="text/javascript" src="{% static 'js/jquery1.9.0.min.js' %}"></script>
@@ -81,13 +81,13 @@ window.onload = function() {
      <div class="right_cont">
  <ul class="breadcrumb">当前位置：
   <!--<a href="#">首页</a> <span class="divider">/</span>-->
-  <a href="#">基础信息维护</a> <span class="divider">/</span>接口信息
+  <a href="#">接口运行</a> <span class="divider">/</span>接口运行
 </ul>
-   <div class="title_right">
-       <span class="pull-right margin-bottom-5">
-           <a  class="btn btn-info btn-small"  id="modal-9" href="{% url 'intfadd' %}" role="button" data-toggle="modal">
-               <i class="icon-plus icon-white"></i> 添加接口</a></span><strong>接口信息</strong>
-   </div>
+   <!--<div class="title_right">-->
+       <!--<span class="pull-right margin-bottom-5">-->
+           <!--<a  class="btn btn-info btn-small"  id="modal-9" href="{% url 'intfadd' %}" role="button" data-toggle="modal">-->
+               <!--<i class="icon-plus icon-white"></i> 添加接口</a></span><strong>接口信息</strong>-->
+   <!--</div>-->
      {% if form.errors %}
          <p style="color:red;" 请输入有效数据{{ form.errors|pluralize }}></p>
      {% endif %}
@@ -102,38 +102,43 @@ window.onload = function() {
      <tbody>
        <tr align="center">
            <td width="40" nowrap="nowrap"><strong>接口名称</strong></td>
-           <td width="30" nowrap="nowrap"><strong>项目名称</strong></td>
+           <!--<td width="30" nowrap="nowrap"><strong>项目名称</strong></td>-->
            <!--<td width="30" nowrap="nowrap"><strong>用例编号</strong></td>-->
            <td width="80" nowrap="nowrap"><strong>用例摘要</strong></td>
            <td width="80" nowrap="nowrap"><strong>请求地址</strong></td>
            <td width="70" nowrap="nowrap"><strong>路径</strong></td>
            <td width="30" nowrap="nowrap"><strong>请求方法</strong></td>
            <td width="200" nowrap="nowrap"><strong>请求参数</strong></td>
-           <td width="30" nowrap="nowrap"><strong>执行结果</strong></td>
-           <td width="30" nowrap="nowrap"><strong>负责人</strong></td>
+           <!--<td width="30" nowrap="nowrap"><strong>执行结果</strong></td>-->
+           <!--<td width="30" nowrap="nowrap"><strong>负责人</strong></td>-->
            <!--<td width="60" nowrap="nowrap"><strong>创建时间</strong></td>-->
-           <td width="30" nowrap="nowrap"><strong>操作</strong></td>
+           <!--<td width="30" nowrap="nowrap"><strong>操作</strong></td>-->
        </tr>
        {% for item in data %}
        <tr align="left">
-           <td nowrap="nowrap">{{item.interfName}}</td>
-           <td nowrap="nowrap">{{item.projectName}}</td>
-           <td nowrap="nowrap" title="{{item.summary}}"><div style="overflow-x:hidden;overflow-y:hidden;">{{item.summary}}</div></td>
-           <td nowrap="nowrap" title="{{item.interfDns}}"><div style="overflow-x:hidden;overflow-y:hidden;">{{item.interfDns}}</div></td>
-           <td nowrap="nowrap" title="{{item.interfPath}}"><div style="overflow-x:hidden;overflow-y:hidden;">{{item.interfPath}}</div></td>
-           <td nowrap="nowrap">{{item.interfMethod}}</td>
-           <td nowrap="nowrap" title="{{item.interfParams}}"><div style="width:200px;overflow-x:hidden;overflow-y:hidden;">{{item.interfParams}}</div></td>
-           <td nowrap="nowrap">{{item.excuteResult}}</td>
-           <td nowrap="nowrap">{{item.name}}</td>
+           <td nowrap="nowrap" aria-readonly="true">{{item.interfName}}</td>
+           <!--<td nowrap="nowrap">{{item.projectName}}</td>-->
+           <td nowrap="nowrap" aria-readonly="true" title="{{item.summary}}"><div style="overflow-x:hidden;overflow-y:hidden;">{{item.summary}}</div></td>
+           <td nowrap="nowrap" aria-readonly="true" title="{{item.interfDns}}"><div style="overflow-x:hidden;overflow-y:hidden;">{{item.interfDns}}</div></td>
+           <td nowrap="nowrap" aria-readonly="true" title="{{item.interfPath}}"><div style="overflow-x:hidden;overflow-y:hidden;">{{item.interfPath}}</div></td>
+           <td nowrap="nowrap" aria-readonly="true" >{{item.interfMethod}}</td>
+           <td nowrap="nowrap" aria-readonly="true" title="{{item.interfParams}}"><div style="width:200px;overflow-x:hidden;overflow-y:hidden;">{{item.interfParams}}</div></td>
+           <!--<td nowrap="nowrap">{{item.excuteResult}}</td>-->
+           <!--<td nowrap="nowrap">{{item.name}}</td>-->
            <!--<td nowrap="nowrap">{{item.createtime}}</td>-->
            <!--<td nowrap="nowrap">{{item.owner}}</td>-->
-           <td nowrap="nowrap"><a href="{% url 'intfdel' item.id %}" onclick="return confirm('确认删除吗？')">删除</a>
-           <a href="{% url 'intfrun' item.id %}" onclick="">执行</a></td>
+           <!--<td nowrap="nowrap"><a href="{% url 'intfdel' item.id %}" onclick="return confirm('确认删除吗？')">删除</a></td>-->
                <!--<a data-toggle="modal" href="{%url 'projupd'%}">编辑</a></td>-->
        </tr>
        {% endfor %}
      </tbody>
     </table>
+     <table>
+         <tr>
+             <td  align="left" nowrap="nowrap" bgcolor="#f1f1f1">接口返回：</td>
+             <td colspan="3" ><textarea rows="7" {{intfrun.interfResponse}} > </textarea></td>
+         </tr>
+     </table>
 
 <p>
 	{% if data.has_previous %}

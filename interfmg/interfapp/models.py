@@ -28,11 +28,10 @@ class Case(models.Model):
 	createTime =  models.DateField(default=now)
 	lastUpdateTime = models.DateField(default=now)
 	def __unicode__(self):
-		return self.summary,self.projectName
+		return self.summary
 
 
 class Interfaces(models.Model):
-	projectName = models.ForeignKey(Project)
 	interfName = models.CharField(max_length=30)
 	interfDns = models.CharField(max_length=30)
 	interfPath = models.CharField(max_length=50)
@@ -41,8 +40,9 @@ class Interfaces(models.Model):
 	excuteResult = models.CharField(max_length=30,null=True)
 	createTime =  models.DateField(default=now)
 	lastUpdateTime = models.DateField(default=now)
+	projectName = models.ForeignKey(Project)
 	name = models.ForeignKey(Owner)
-	case = models.ForeignKey(Case)
+	summary = models.ForeignKey(Case)
 	dels = models.BooleanField(default=False)
 	def __unicode__(self):
 		return self.interfName

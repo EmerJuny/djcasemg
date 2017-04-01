@@ -5,12 +5,12 @@ from django.forms import ModelForm,Textarea
 from django.utils.translation import ugettext_lazy as _
 class InterfaceForm(forms.Form):
     METHOD_TYPE=(('POST','POST'),('GET','GET'),)
-    projectName = forms.ModelChoiceField(label="项目名称",queryset=Project.objects.all())
-    interfName = forms.CharField(max_length=30,label="接口名称")
+    projectName = forms.ModelChoiceField(label="项目名称",queryset=Project.objects.all())#attrs={'class':'span1-5','width':'38%'}
+    interfName = forms.CharField(max_length=30,label="接口名称",widget=forms.TextInput())#attrs={'class':'span1-5'}
     interfDns = forms.URLField(max_length=30,label="请求地址")
     interfPath = forms.CharField(max_length=50,label="路径")
-    interfMethod = forms.CharField(widget=forms.widgets.Select(choices=METHOD_TYPE),label="请求方法")
-    interfParams = forms.CharField(max_length=255,label="请求参数",widget=forms.Textarea)
+    interfMethod = forms.CharField(widget=forms.widgets.Select(choices=METHOD_TYPE,attrs={'align':'left'}),label="请求方法")
+    interfParams = forms.CharField(max_length=255,label="请求参数",widget=forms.Textarea(attrs={'style':'width:792px;'}))#attrs={'class':'span10'}
     excuteResult = forms.CharField(max_length=5,label="执行结果",required=False)
     name = forms.ModelChoiceField(label="测试负责人",queryset=Owner.objects.all().filter(role='测试'))
     summary  = forms.ModelChoiceField(label="用例摘要",queryset=Case.objects.all())

@@ -8,7 +8,8 @@ from django.template import RequestContext
 from django.core.paginator import Paginator,EmptyPage,PageNotAnInteger
 from django import  forms
 from interfapp.models import Owner
-from django.views.decorators.csrf import csrf_protect
+import requests
+import  json
 from django.db.models.deletion import ProtectedError
 # Create your views here.
 
@@ -103,7 +104,7 @@ def owdel(request,id):
 
 def intfcf(request):
     limit = 10 # 每页显示的记录数
-    data = Interfaces.objects.all().filter(dels='0').order_by("id")
+    data = Interfaces.objects.all().filter(dels=0).order_by("id")
     paginator = Paginator(data, limit)  # 实例化一个分页对象
     page = request.GET.get('page')  # 获取页码
     try:
@@ -114,6 +115,7 @@ def intfcf(request):
         data = paginator.page(paginator.num_pages)  # 取最后一页的记录
     return render_to_response('intfcf.html',{'data':data})
 
+@csrf_exempt
 def intfadd(request):
     error = []
     if request.method == 'POST':
@@ -122,9 +124,9 @@ def intfadd(request):
             data = form.cleaned_data
             projectName = data['projectName']
             interfName = data['interfName']
-            interfDns=data['interfDns']
-            interfPath=data['interfPath']
-            interfMethod=data['interfMethod']
+            interfDns = data['interfDns']
+            interfPath = data['interfPath']
+            interfMethod = data['interfMethod']
             interfParams = data['interfParams']
             name = data['name']
             summary = data['summary']
@@ -140,8 +142,9 @@ def intfadd(request):
 
 
 def intfdel(request,id):
-    entry = get_object_or_404(Interfaces,pk=int(id))
-    entry.update(dels='1')
+    p = Interfaces.objects.get(id=id)
+    p.dels = 1
+    p.save()
     return HttpResponseRedirect('/interfapp/intfcf/')
 
 
@@ -196,3 +199,8 @@ def caseupd(request):
 def projupd(request):
     pass
 
+def intfrun(request,id):
+    obj = Interfaces.objects.get(id=id)
+    # if obj.
+    r = request.obj.interfMethod('{ obj.interfDns }+'/'+{obj.interfPath}'+'?'+{obj.interfParams})
+    return render_to_response('intfrun.html',{'interfResponse':r})
