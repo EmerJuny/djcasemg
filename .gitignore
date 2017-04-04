@@ -97,3 +97,6 @@ settings.*
 
 #__init__
 interfmg/interfmg/__init__.py
+
+#models.py
+models.*
