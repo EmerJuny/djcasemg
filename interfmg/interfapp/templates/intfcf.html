@@ -65,6 +65,7 @@ window.onload = function() {
     <div >
 		<span>接口配置</span>
 		<a href="{%url 'intfcf' %}">接口信息配置</a>
+        <a href="{%url 'intfrun' %}">接口执行</a>
 	</div>
     </div>
 </div>
@@ -125,11 +126,9 @@ window.onload = function() {
            <td nowrap="nowrap" title="{{item.interfParams}}"><div style="width:200px;overflow-x:hidden;overflow-y:hidden;">{{item.interfParams}}</div></td>
            <td nowrap="nowrap">{{item.excuteResult}}</td>
            <td nowrap="nowrap">{{item.name}}</td>
-           <!--<td nowrap="nowrap">{{item.createtime}}</td>-->
-           <!--<td nowrap="nowrap">{{item.owner}}</td>-->
            <td nowrap="nowrap"><a href="{% url 'intfdel' item.id %}" onclick="return confirm('确认删除吗？')">删除</a>
-           <a href="{% url 'intfrun' item.id %}" onclick="">执行</a></td>
-               <!--<a data-toggle="modal" href="{%url 'projupd'%}">编辑</a></td>-->
+           <a href="{% url 'intfrun' item.id %}" onclick="">执行</a>
+           </td>
        </tr>
        {% endfor %}
      </tbody>

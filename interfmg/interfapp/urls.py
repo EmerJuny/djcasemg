@@ -20,6 +20,7 @@ urlpatterns = [
     url(r'^intfcf/',views.intfcf,name='intfcf'),
     url(r'^intfadd/$',views.intfadd,name='intfadd'),
     url(r'^intfrun-(?P<id>\d+)/$',views.intfrun,name='intfrun'),
+    url(r'^intfrun/$',views.intfrun,name='intfrun'),
     url(r'^intfdel-(?P<id>\d+)/$',views.intfdel,name='intfdel'),
     # url(r'^projdel/',views.projdel,name='projdel'),
     url(r'^projconf/$',views.projconf,name='projconf'),

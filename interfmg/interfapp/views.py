@@ -117,7 +117,7 @@ def intfcf(request):
 
 @csrf_exempt
 def intfadd(request):
-    error = []
+    # error = []
     if request.method == 'POST':
         form = InterfaceForm(request.POST)
         if form.is_valid():
@@ -140,13 +140,11 @@ def intfadd(request):
         form = InterfaceForm()
         return render_to_response('intfadd.html', {'form': form}, context_instance=RequestContext(request))
 
-
 def intfdel(request,id):
     p = Interfaces.objects.get(id=id)
     p.dels = 1
     p.save()
     return HttpResponseRedirect('/interfapp/intfcf/')
-
 
 def casecf(request):
     limit = 10 # 每页显示的记录数
@@ -173,8 +171,6 @@ def caseadd(request):
             details = data['details']
             name = data['name']
             projectName = data['projectName']
-            # createtime = data['createtime']
-            # lastUpdateTime = data['lastUpdateTime'] ,createtime=createtime,lastUpdateTime=lastUpdateTime
             data = Case(summary=summary,details=details,name=name,projectName=projectName)
             data.save()
             return HttpResponseRedirect('/interfapp/casecf/')
@@ -182,8 +178,6 @@ def caseadd(request):
             return render_to_response("caseadd.html", locals(), RequestContext(request))
     else:
         form = CaseForm()
-        # proname_list = Project.objects.values_list("projectName")
-        # ow_list = Owner.objects.values_list("name").filter(role='测试')
         return render_to_response('caseadd.html', {'form': form}, context_instance=RequestContext(request))
 
 def casedel(request,id):
@@ -200,7 +194,14 @@ def projupd(request):
     pass
 
 def intfrun(request,id):
-    obj = Interfaces.objects.get(id=id)
-    # if obj.
-    r = request.obj.interfMethod('{ obj.interfDns }+'/'+{obj.interfPath}'+'?'+{obj.interfParams})
-    return render_to_response('intfrun.html',{'interfResponse':r})
+    data = Interfaces.objects.filter(id=id)
+    # reobj = Interfaces.objects.values('summary','interfDns','interfPath','interfMethod','interfParams').filter(id=id)
+    # url = request.GET.get("interfDns","")
+    #
+    # req = request.get(url)
+    # print(req.text)
+    return render(request,'intfrun.html',{'data':data})
+    # return render('intfrun.html',{'resp':req.text})
+
+if __name__=="__main__":
+    intfrun()
