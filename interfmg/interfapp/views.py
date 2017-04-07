@@ -140,6 +140,23 @@ def intfadd(request):
         form = InterfaceForm()
         return render_to_response('intfadd.html', {'form': form}, context_instance=RequestContext(request))
 
+def intfrun(request,id):
+    reqobj = Interfaces.objects.filter(id=id)
+
+
+    # url = request.GET.get("interfDns","")
+    #
+    # req = request.get(url)
+    # print(req.text)
+    return render(request,'intfrun.html',{'data':reqobj})
+    # return render('intfrun.html',{'resp':req.text})
+def sendreq(request):
+    # if request.method=='GET':
+        url = request.GET['url']
+        params= request.GET['mparams']
+        responses = requests.get(url,params=params)
+        return HttpResponse(responses.text)
+
 def intfdel(request,id):
     p = Interfaces.objects.get(id=id)
     p.dels = 1
@@ -193,15 +210,4 @@ def caseupd(request):
 def projupd(request):
     pass
 
-def intfrun(request,id):
-    data = Interfaces.objects.filter(id=id)
-    # reobj = Interfaces.objects.values('summary','interfDns','interfPath','interfMethod','interfParams').filter(id=id)
-    # url = request.GET.get("interfDns","")
-    #
-    # req = request.get(url)
-    # print(req.text)
-    return render(request,'intfrun.html',{'data':data})
-    # return render('intfrun.html',{'resp':req.text})
 
-if __name__=="__main__":
-    intfrun()

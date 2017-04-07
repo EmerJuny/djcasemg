@@ -1,6 +1,6 @@
 {% load staticfiles %}
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN""http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns="http://www.w3.org/1999/html">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>执行接口</title>
@@ -9,7 +9,9 @@
 <script type="text/javascript" src="{% static 'js/jquery1.9.0.min.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/sdmenu.js' %}"></script>
+<script type="text/javascript" src="{% static 'dist/jquery.jsonview.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/laydate/laydate.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/csrf.js' %}"></script>
 <style>
         .modal-body{text-align:center;margin:0px auto;}
 
@@ -87,92 +89,68 @@ window.onload = function() {
      <form action="" class="form-inline" method="get" role="form">
          <div style="width:810px;margin:left;">
 
-         <table class="table table-bordered " >
-     <!--<tbody>-->
+         <table class="table table-bordered " id="tb" width="90%" cellpadding="0" cellspacing="0" >
       {% for item in data %}
-       <tr >
-           <td width=8% align="left"  nowrap="nowrap" bgcolor="#f1f1f1" > 接口名称</td>
-           <td align="left" aria-readonly="true">{{item.interfName}}</td>
-           <td width=8%  align="left"  nowrap="nowrap" bgcolor="#f1f1f1">用例摘要</td>
-           <td width=45%  align="left" aria-readonly="true" title="{{item.summary}}"><div style="overflow-x:hidden;overflow-y:hidden;">{{item.summary}}</div></td>
+       <tr>
+            <td nowrap="nowrap" bgcolor="#f1f1f1">接口名称</td>
+            <td><input id="intfname" type="text" aria-readonly="true"  name="intfname" value="{{item.interfName}}"></td>
+            <td nowrap="nowrap" bgcolor="#f1f1f1">请求方法</td>
+            <td><input id="methods" type="text" aria-readonly="true" name="methods" value="{{item.interfMethod}}"></td>
        </tr>
        <tr>
-           <td width="8%" align="left"  nowrap="nowrap" bgcolor="#f1f1f1">请求地址</td>
-           <td align="left" aria-readonly="true" title="{{item.interfDns}}"><div style="overflow-x:hidden;overflow-y:hidden;">{{item.interfDns}}</div></td>
-           <td width="8%" align="left"  nowrap="nowrap" bgcolor="#f1f1f1">路径</td>
-           <td align="left" aria-readonly="true" title="{{item.interfPath}}"><div style="overflow-x:hidden;overflow-y:hidden;">{{item.interfPath}}</div></td>
+            <td nowrap="nowrap" bgcolor="#f1f1f1">请求地址</td>
+            <td><input id="ipport" type="text" aria-readonly="true"  name="ipport" value="{{item.interfDns}}"></td>
+            <td nowrap="nowrap" bgcolor="#f1f1f1">路径</td>
+            <td><input id="path" type="text" aria-readonly="true" name="path" value="{{item.interfPath}}"></td>
        </tr>
        <tr>
-           <td width=8% align="left" nowrap="nowrap" bgcolor="#f1f1f1">请求方法</td>
-           <td width=20% align="left" aria-readonly="true" >{{item.interfMethod}}</td>
+            <td nowrap="nowrap" bgcolor="#f1f1f1">用例摘要</td>
+            <td ><input id="summary"  style="width:450px" type="text" aria-readonly="true"  name="summary" value="{{item.summary}}"></td>
        </tr>
-
-       <tr align="left">
-           <td width=8% align="left" nowrap="nowrap" bgcolor="#f1f1f1">请求参数</td>
-           <td width=20% align="left" aria-readonly="true"  title="{{item.interfParams}}"><div style="width:200px;overflow-x:hidden;overflow-y:hidden;">{{item.interfParams}}</div></td>
-       </tr>
-
-     <!--</tbody>-->
     </table>
-    <table class="margin-bottom-10  table no-border">
-        <tr>
-            <td class="text-center"><input type="button" id="sendbtn" value="发送" class="btn btn-info  "
-                                           style="width:80px;"/></td>
-        </tr>
-    </table>
+        {% if item.interfParams %}
+        <input id="interfParams"   name="interfParams" value="{{item.interfParams}}">
+		<div id="interfParams_json" style="border:1px solid green;background:#5bc0de;height:auto;min-height:200px;width=800px" ></div>
+		{% endif %}
+    <!--<table class="margin-bottom-10  table no-border">-->
+        <!--<tr>-->
+            <!--<td class="text-center"><input type="button" id="sendbtn" value="发送"-->
+                                           <!--style="width:80px;"/></td>-->
+        <!--</tr>-->
+    <!--</table>-->
+    <button>发送</button></br>
     <span>接口返回值：</span>
-    {% if item.interfPath %}
-          <input id="respvalue" name="respvalue" type="hidden" value="{{item.interfPath}}">
-          <div id="resp" holdplacer="返回值" style="border:1px solid #f5f5f5;background:rgba(243,243,6,0.69);height:auto;min-height:190px;width=800px"></div>
-    {% endif %}
+          <div id="respval" holdplacer="返回值" style="border:1px solid green;background:yellow;height:auto;min-height:190px;width=800px"></div>
     {% endfor %}
     </div>
     </form>
 <div id="footer">版权所有：平安证券保障团队 &copy; 2017&nbsp;&nbsp;&nbsp;&nbsp;</div>
- <script>
-  !function(){
-     laydate.skin('molv');
-     laydate({elem: '#Calendar'});
-     laydate.skin('molv');
-     laydate({elem: '#Calendar2'});
-   }();
-</script>
+ <!--<script>-->
+  <!--!function(){-->
+     <!--laydate.skin('molv');-->
+     <!--laydate({elem: '#Calendar'});-->
+     <!--laydate.skin('molv');-->
+     <!--laydate({elem: '#Calendar2'});-->
+   <!--}();-->
+<!--</script>-->
 
+
+</div>
+</div>
+
+</div>
+<script type="text/javascript" src="{% static 'js/jquery1.9.0.min.js' %}"></script>
 <script>
-!function(){
-laydate.skin('molv');
-laydate({elem: '#Calendar'});
-}();
-//ajax请求
-$(document).ready(function(){
-var methods=$("#methods").val()
-	$("#btn_data").bind("click",
-                 function() {
-                        	//下面是ajax
-                        	var url=$("#url").val()
-                        	var result=$("#result").val()
-                        	var json=$.parseJSON(result)
-                        	//var json=eval(result)
-                        	//$("#json").JSONView(json)
-							console.log(typeof(json))
-                        	if(methods=="GET"){
-                        		$.get('{% url "interface_get" %}',
-                        		{"url":url}, function(ret){
-     							 console.log("ff");
-     							// alert($("#url").val())
-     							 $("#result").val(ret)
-     							 $("#json").JSONView(ret)
- 							 		})
- 							 }
- 							 });
-})
-$(document).ready(function(){
-    $("#interfaceBody_json").JSONView($("#interfaceBody").val())
-})
-</script>
-</div>
-</div>
 
-</div>
+$(document).ready(function(){
+    $("button").click(function(){
+    alert($("#interfParams").val())});
+    });
+
+$(document).ready(function(){
+    $("#interfParams_json").JSONView($("#interfParams").val());
+});
+</script>
+
 </body>
 </html>
