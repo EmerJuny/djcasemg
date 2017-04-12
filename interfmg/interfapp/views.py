@@ -150,12 +150,35 @@ def intfrun(request,id):
     # print(req.text)
     return render(request,'intfrun.html',{'data':reqobj})
     # return render('intfrun.html',{'resp':req.text})
+@csrf_exempt
 def sendreq(request):
     # if request.method=='GET':
-        url = request.GET['url']
-        params= request.GET['mparams']
-        responses = requests.get(url,params=params)
-        return HttpResponse(responses.text)
+    #  url = request.GET['url']
+    #     mpra= request.GET['data']
+    #     print mpra
+    #     responses = requests.get(url)
+    #     return HttpResponse(responses.text)
+    #     url = request.POST['url']
+    #     data= request.POST['data']
+    #     url1 = url.encode('utf-8')
+    #     data1 = eval(data.encode('utf-8'))
+        id = request.POST['id']
+        datas = Interfaces.objects.filter(id=int(id))
+        for i in datas:
+            url1=i.interfDns
+            url2=i.interfPath
+            data=i.interfParams
+        url=(url1+'/'+url2).encode('utf-8')
+
+        headers1 = {'Content-Type':'application/x-www-form-urlencoded'}
+        print 'interfParams:',data
+        # h1=headers1.encode('utf-8')
+        # headers = eval(h1)
+        data1=eval(data)
+        print 'data:',data1
+        responses = requests.post(url,headers=headers1,data=data1)
+        # print 'resp:',responses.text
+        return HttpResponse(responses)
 
 def intfdel(request,id):
     p = Interfaces.objects.get(id=id)
@@ -174,7 +197,8 @@ def casecf(request):
         data = paginator.page(1)  # 取第一页的记录
     except EmptyPage:  # 如果页码太大，没有相应的记录
         data = paginator.page(paginator.num_pages)  # 取最后一页的记录
-    return render_to_response('casecf.html',{'data':data})
+
+    return render_to_response('casecf.html',locals())
 
 @csrf_exempt
 def caseadd(request):
@@ -188,7 +212,8 @@ def caseadd(request):
             details = data['details']
             name = data['name']
             projectName = data['projectName']
-            data = Case(summary=summary,details=details,name=name,projectName=projectName)
+            checkPoint = data['checkPoint']
+            data = Case(summary=summary,details=details,name=name,projectName=projectName,checkPoint=checkPoint)
             data.save()
             return HttpResponseRedirect('/interfapp/casecf/')
         else:

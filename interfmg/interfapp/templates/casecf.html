@@ -104,8 +104,10 @@ window.onload = function() {
        <tr align="center">
            <td width="20" nowrap="nowrap"><strong>用例ID</strong></td>
            <td width="70" nowrap="nowrap"><strong>所属项目</strong></td>
-           <td width="120" nowrap="nowrap"><strong>用例摘要</strong></td>
+           <!--<td width="70" nowrap="nowrap"><strong>接口名称</strong></td>-->
+           <td width="100" nowrap="nowrap"><strong>用例摘要</strong></td>
            <td width="200" nowrap="nowrap"><strong>用例详情</strong></td>
+           <td width="120" nowrap="nowrap"><strong>返回值检查</strong></td>
            <td width="30" nowrap="nowrap"><strong>创建人</strong></td>
            <!--<td width="60" nowrap="nowrap"><strong>创建时间</strong></td>-->
            <td width="30" nowrap="nowrap"><strong>操作</strong></td>
@@ -114,11 +116,11 @@ window.onload = function() {
        <tr align="left">
            <td nowrap="nowrap">{{item.id}}</td>
            <td nowrap="nowrap">{{item.projectName}}</td>
+           <!--<td nowrap="nowrap">{{intfname}} </td>-->
            <td nowrap="nowrap">{{item.summary}}</td>
            <td nowrap="nowrap">{{item.details}}</td>
+           <td nowrap="nowrap">{{item.checkPoint}}</td>
            <td nowrap="nowrap">{{item.name}}</td>
-           <!--<td nowrap="nowrap">{{item.createtime}}</td>-->
-           <!--<td nowrap="nowrap">{{item.owner}}</td>-->
            <td nowrap="nowrap"><a href="{%url 'casedel' item.id%}" onclick="return confirm('确认删除吗？')">删除</a>
                <!--<a data-toggle="modal" href="{%url 'projupd'%}">编辑</a></td>-->
        </tr>

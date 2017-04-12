@@ -20,6 +20,7 @@ class CaseForm(forms.Form):
     name = forms.ModelChoiceField(label="开发负责人",queryset=Owner.objects.all().filter(role='测试'))
     summary = forms.CharField(max_length=100,label="用例摘要", widget=forms.TextInput(attrs={'class':'span10'}))
     details = forms.CharField(max_length=255,label="用例详情",widget=forms.Textarea(attrs={'class':'span10'}),required=False)
+    checkPoint = forms.CharField(max_length=200,label="返回值检查",widget=forms.TextInput(attrs={'class':'span10'}),required=False)
 
 class OwnerForm(forms.Form):
     ROLE_TYPE=(('测试','测试'),('开发','开发'),)

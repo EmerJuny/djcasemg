@@ -27,13 +27,14 @@ class Case(models.Model):
 	projectName = models.ForeignKey(Project)
 	createTime =  models.DateField(default=now)
 	lastUpdateTime = models.DateField(default=now)
+	checkPoint = models.CharField(max_length=200,null=True,blank=True)
 	def __unicode__(self):
 		return self.summary
 
 
 class Interfaces(models.Model):
 	interfName = models.CharField(max_length=30)
-	interfDns = models.CharField(max_length=30)
+	interfDns = models.CharField(max_length=255)
 	interfPath = models.CharField(max_length=50)
 	interfMethod = models.CharField(max_length=4)
 	interfParams = models.TextField(max_length=255)
