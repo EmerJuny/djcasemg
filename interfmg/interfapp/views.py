@@ -152,11 +152,11 @@ def intfupd(request,id):
         # interfMethod = request.POST['interfMethod']
         interfParams = request.POST['interfParams']
         print interfName
-        Interfaces.objects.filter(id=int(id)).update(interfName=interfName,
+        Interfaces.objects.filter(id=int(id)).update(interfName=interfName,interfParams=interfParams)
                    #                                   projectName=projectName,interfDns=interfDns,
                    # interfPath=interfPath,interfMethod=interfMethod,
-                                                     interfParams=interfParams)
-        return HttpResponseRedirect('interfapp/intfcf')
+
+        return HttpResponseRedirect('/interfapp/intfcf')
     else:
         data = Interfaces.objects.filter(id=int(id))
         return render(request,'intfupd.html',{'data':data})
@@ -192,8 +192,8 @@ def sendreq(request):
         return HttpResponse(responses)
 
 def intfdel(request,id):
-    p = get_object_or_404(Interfaces,pk=int(id))
-    p = Owner.objects.get(id=id)
+    x = get_object_or_404(Interfaces,pk=int(id))
+    p = Interfaces.objects.get(id=id)
     if ( p.case_set.all().count()>0)  :
         return HttpResponse('有关联项不能删除')
     else:

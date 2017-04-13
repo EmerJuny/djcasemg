@@ -99,13 +99,14 @@ window.onload = function() {
                 温馨提示：编辑接口信息
             </div>
             {% for item in data %}
-            <form action=""  method="post" role="form">
+            <form action=""  method="POST" role="form">
+                {% csrf_token %}
                 <div style="width:900px;margin:auto;">
             <table class="table table-bordered">
 
                     <tr>
                         <td width=8% align="left" align="left" nowrap="nowrap" bgcolor="#f1f1f1" ><span style="color:red">*</span>接口名称：</td>
-                        <td width=12% align="left"><input type="text" value="{{item.interfName}}"/></td>
+                        <td width=12% align="left"><input id="interfName" name="interfName" type="text" value="{{item.interfName}}"/></td>
                         <td width=8%  align="left"  nowrap="nowrap" bgcolor="#f1f1f1">项目名称：</td>
                         <td width=45%  align="left">{{item.projectName}}</td>
                     </tr>
@@ -127,7 +128,7 @@ window.onload = function() {
                     </tr>
                    <tr>
                         <td  align="left" nowrap="nowrap" bgcolor="#f1f1f1"><span style="color:red">*</span>请求参数：</td>
-                        <td colspan="3" ><textarea  style="width:720px;height:200px">{{item.interfParams}}</textarea></td>
+                        <td colspan="3" ><textarea name="interfParams" id="interfParams" style="width:720px;height:200px">{{item.interfParams}}</textarea></td>
                     </tr>
 
                 </table>
