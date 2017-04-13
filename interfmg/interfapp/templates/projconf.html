@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>项目信息配置</title>
+<title>接口用例管理</title>
 <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}" />
 <link rel="stylesheet" href="{% static 'css/css.css' %}" />
 <script type="text/javascript" src="{% static 'js/jquery1.9.0.min.js' %}"></script>
@@ -58,14 +58,14 @@ window.onload = function() {
 		<a href="{%url 'projconf' %}">项目信息</a>
 	</div>
     <div >
-		<span>用例维护</span>
-		<a href="{%url 'casecf' %}">新增用例</a>
-        <a href="{%url 'caseupd' %}">编辑用例</a>
-	</div>
+        <span>接口配置</span>
+        <a href="{%url 'intfcf' %}">接口信息</a>
+    </div>
     <div >
-		<span>接口配置</span>
-		<a href="{%url 'intfcf' %}">接口信息配置</a>
-	</div>
+        <span>接口用例</span>
+        <a href="{%url 'casecf' %}">添加接口用例</a>
+        <a href="{%url 'caseupd' %}">编辑用例</a>
+    </div>
     </div>
 </div>
      <div class="Switch"></div>

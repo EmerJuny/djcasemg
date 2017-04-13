@@ -19,8 +19,22 @@ class Project(models.Model):
 	def __unicode__(self):
 		return self.projectName
 
+class Interfaces(models.Model):
+	interfName = models.CharField(max_length=30)
+	interfDns = models.CharField(max_length=255)
+	interfPath = models.CharField(max_length=50)
+	interfMethod = models.CharField(max_length=4)
+	interfParams = models.TextField(max_length=255)
+	result = models.CharField(max_length=30,null=True,blank=True)
+	createTime =  models.DateField(default=now)
+	lastUpdateTime = models.DateField(default=now)
+	projectName = models.ForeignKey(Project)
+	# name = models.ForeignKey(Owner)
+	# dels = models.BooleanField(default=False)
+	def __unicode__(self):
+		return self.interfName
+
 class Case(models.Model):
-	# id = models.IntegerField(primary_key=True)
 	summary = models.CharField(max_length=100)
 	details = models.TextField(max_length=255,null=True)
 	name =  models.ForeignKey(Owner)
@@ -28,25 +42,8 @@ class Case(models.Model):
 	createTime =  models.DateField(default=now)
 	lastUpdateTime = models.DateField(default=now)
 	checkPoint = models.CharField(max_length=200,null=True,blank=True)
+	interfName = models.ForeignKey(Interfaces)
 	def __unicode__(self):
 		return self.summary
-
-
-class Interfaces(models.Model):
-	interfName = models.CharField(max_length=30)
-	interfDns = models.CharField(max_length=255)
-	interfPath = models.CharField(max_length=50)
-	interfMethod = models.CharField(max_length=4)
-	interfParams = models.TextField(max_length=255)
-	excuteResult = models.CharField(max_length=30,null=True,blank=True)
-	createTime =  models.DateField(default=now)
-	lastUpdateTime = models.DateField(default=now)
-	projectName = models.ForeignKey(Project)
-	name = models.ForeignKey(Owner)
-	summary = models.ForeignKey(Case)
-	dels = models.BooleanField(default=False)
-	def __unicode__(self):
-		return self.interfName
-
 
 

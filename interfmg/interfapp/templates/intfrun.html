@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns="http://www.w3.org/1999/html">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>执行接口</title>
+<title>接口用例管理</title>
 <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}" />
 <link rel="stylesheet" href="{% static 'css/css.css' %}" />
 <script type="text/javascript" src="{% static 'js/jquery1.9.0.min.js' %}"></script>
@@ -60,13 +60,13 @@ window.onload = function() {
 		<a href="{%url 'projconf' %}">项目信息</a>
 	</div>
     <div >
-		<span>用例维护</span>
-		<a href="{%url 'casecf' %}">新增用例</a>
-        <a href="{%url 'caseupd' %}">编辑用例</a>
-	</div>
-    <div >
 		<span>接口配置</span>
-		<a href="{%url 'intfcf' %}">接口信息配置</a>
+		<a href="{%url 'intfcf' %}">接口信息</a>
+	</div>
+     <div >
+		<span>接口用例</span>
+		<a href="{%url 'casecf' %}">添加接口用例</a>
+        <a href="{%url 'caseupd' %}">编辑用例</a>
 	</div>
     </div>
 </div>
@@ -95,19 +95,19 @@ window.onload = function() {
             <td nowrap="nowrap" bgcolor="#f1f1f1">接口名称</td>
             <td><input id="intfname" type="text" aria-readonly="true"  name="intfname" value="{{item.interfName}}"></td>
             <td nowrap="nowrap" bgcolor="#f1f1f1">请求方法</td>
-            <td><input id="methods" type="text" aria-readonly="true" name="methods" value="{{item.interfMethod}}"></td>
+            <td><input id="methods" type="text" aria-readonly="true" name="methods" value="{{item.interfName.interfMethod}}"></td>
        </tr>
        <tr>
             <td nowrap="nowrap" bgcolor="#f1f1f1">请求地址</td>
-            <td><input id="url" type="text" aria-readonly="true"  name="url" value="{{item.interfDns}}"></td>
+            <td><input id="url" type="text" aria-readonly="true"  name="url" value="{{item.interfName.interfDns}}"></td>
             <td nowrap="nowrap" bgcolor="#f1f1f1">路径</td>
-            <td><input id="path" type="text" aria-readonly="true" name="path" value="{{item.interfPath}}"></td>
+            <td><input id="path" type="text" aria-readonly="true" name="path" value="{{item.interfName.interfPath}}"></td>
        </tr>
        <tr>
             <td nowrap="nowrap" bgcolor="#f1f1f1">用例摘要</td>
             <td ><input id="summary"  style="width:450px" type="text" aria-readonly="true"  name="summary" value="{{item.summary}}"></td>
             <td nowrap="nowrap" bgcolor="#f1f1f1">接口id</td>
-            <td><input id="intfId" type="text" aria-readonly="true" name="methods" value="{{item.id}}"></td>
+            <td><input id="intfId" type="text" aria-readonly="true" name="methods" value="{{item.interfName.id}}"></td>
        </tr>
        {% if item.checkPoint %}
        <tr>
@@ -115,10 +115,10 @@ window.onload = function() {
             <td><input id="checkPoint" style="width:450px;color:red" type="text" aria-readonly="true" name="path" value="{{item.checkPoint}}"></td>
        </tr>
        {% endif %}
-       {% if item.interfParams %}
+       {% if item.interfName.interfParams %}
        <tr>
          <td nowrap="nowrap" bgcolor="#f1f1f1">请求参数</td>
-            <td><input id="interfParams" style="width:450px;background:#5bc0de" type="text" aria-readonly="true" name="path" value="{{item.interfParams}}"></td>
+            <td><input id="interfParams" style="width:450px;background:#5bc0de" type="text" aria-readonly="true" name="path" value="{{item.interfName.interfParams}}"></td>
        </tr>
        {% endif %}
     </table>

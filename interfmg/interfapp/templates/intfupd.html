@@ -84,40 +84,67 @@ window.onload = function() {
 
     </script>
 
-
     <div class="right" id="mainFrame">
         <div class="right_cont">
             <ul class="breadcrumb">当前位置：
                 <!--<a href="#">首页</a> <span class="divider">/</span>-->
-                <a href="#">基础信息维护</a> <span class="divider">/</span>添加项目信息
+                <a href=" {%url 'intfadd' %} ">基础信息维护</a> <span class="divider">/</span>接口信息编辑
             </ul>
 
-            {% if form.errors %}
-            <p style="color:red;" 请输入有效数据{{ form.errors|pluralize }}></p>
-            {% endif %}
+
             <!--添加项目表单-->
-            <div class="title-right"><strong>项目信息添加</strong></div>
-            <form action="" class="form-inline" method="post" role="form">
-                {% csrf_token %}
-            <table class="form-control offset4">
-            {{ form.as_table }}
-            </table>
-		    &nbsp&nbsp&nbsp&nbsp
-            <input class="btn btn-info form-control offset5"  type = "submit" value = "提 交" />
-            </form>
+            <div class="title-right"><strong>接口信息添加</strong></div>
+            <div class="alert">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                温馨提示：编辑接口信息
             </div>
-            <!--<p>-->
-                <!--{% if data.has_previous %}-->
-                <!--<a href="?page={{ data.previous_page_number }}">上一页</a>-->
-                <!--{% endif %}-->
-                <!--{# data.paginator.number_pages 返回总页数 #}-->
-                <!--第{{ data.number }}页 | 共{{ data.paginator.num_pages }}页-->
-                <!--{% if data.has_next %}-->
-                <!--<a href="?page={{ data.next_page_number }}">下一页</a>-->
-                <!--{% endif %}-->
-            <!--</p>-->
+            {% for item in data %}
+            <form action=""  method="post" role="form">
+                <div style="width:900px;margin:auto;">
+            <table class="table table-bordered">
+
+                    <tr>
+                        <td width=8% align="left" align="left" nowrap="nowrap" bgcolor="#f1f1f1" ><span style="color:red">*</span>接口名称：</td>
+                        <td width=12% align="left"><input type="text" value="{{item.interfName}}"/></td>
+                        <td width=8%  align="left"  nowrap="nowrap" bgcolor="#f1f1f1">项目名称：</td>
+                        <td width=45%  align="left">{{item.projectName}}</td>
+                    </tr>
+                    <tr>
+                        <td width=8% align="left" nowrap="nowrap" bgcolor="#f1f1f1"><span style="color:red">*</span>请求地址：</td>
+                        <td width=12% align="left"> {{item.interfDns}}</td>
+                        <td width=8% align="left" nowrap="nowrap" bgcolor="#f1f1f1">路径：</td>
+                        <td width=35% align="left"> {{item.interfPath}}</td>
+                    </tr>
+                    <!--<tr>-->
+                        <!--<td width="8%" align="left"  nowrap="nowrap" bgcolor="#f1f1f1">用例摘要：</td>-->
+                        <!--<td align="left">{{item.summary}}</td>-->
+                        <!--<td width="8%" align="left"  nowrap="nowrap" bgcolor="#f1f1f1">测试负责人：</td>-->
+                        <!--<td align="left">{{item.name}}</td>-->
+                    <!--</tr>-->
+                    <tr>
+                        <td width=8% align="left" nowrap="nowrap" bgcolor="#f1f1f1">请求方法：</td>
+                        <td width=20% align="left"> {{item.interfMethod}}</td>
+                    </tr>
+                   <tr>
+                        <td  align="left" nowrap="nowrap" bgcolor="#f1f1f1"><span style="color:red">*</span>请求参数：</td>
+                        <td colspan="3" ><textarea  style="width:720px;height:200px">{{item.interfParams}}</textarea></td>
+                    </tr>
+
+                </table>
+                <table class="margin-bottom-20  table no-border">
+                    <tr>
+                        <td class="text-center"><input type="submit"  value="保存" class="btn btn-info  "
+                                                       style="width:80px;"/></td>
+                    </tr>
+
+                </table>
+            </div>
+            </form>
+             {% endfor %}
+            </div>
+
             <div id="footer">版权所有：平安证券保障团队 &copy; 2017&nbsp;&nbsp;&nbsp;&nbsp;</div>
-            <script>
+ <script>
   !function(){
      laydate.skin('molv');
      laydate({elem: '#Calendar'});
@@ -125,7 +152,7 @@ window.onload = function() {
      laydate({elem: '#Calendar2'});
    }();
 
-            </script>
+</script>
         </div>
     </div>
 

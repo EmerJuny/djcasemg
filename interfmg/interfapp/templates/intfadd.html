@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <title>添加接口信息</title>
+    <title>接口用例管理</title>
     <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}"/>
     <link rel="stylesheet" href="{% static 'css/css.css' %}"/>
     <script type="text/javascript" src="{% static 'js/jquery1.9.0.min.js' %}"></script>
@@ -63,14 +63,14 @@ window.onload = function() {
                 <a href="{%url 'owcf' %}">人员信息</a>
 		        <a href="{%url 'projconf' %}">项目信息</a>
             </div>
-            <div>
-                <span>用例维护</span>
-                <a href="{%url 'casecf' %}">新增用例</a>
-                <a href="{%url 'caseupd' %}">编辑用例</a>
-            </div>
-            <div>
+            <div >
                 <span>接口配置</span>
-                <a href="{%url 'intfcf' %}">接口信息配置</a>
+                <a href="{%url 'intfcf' %}">接口信息</a>
+            </div>
+            <div >
+                <span>接口用例</span>
+                <a href="{%url 'casecf' %}">添加接口用例</a>
+                <a href="{%url 'caseupd' %}">编辑用例</a>
             </div>
         </div>
     </div>
@@ -108,18 +108,17 @@ window.onload = function() {
                         <td width=45%  align="left">{{form.projectName}}</td>
                     </tr>
                     <tr>
-                        <td width="8%" align="left"  nowrap="nowrap" bgcolor="#f1f1f1">用例摘要：</td>
-                        <td align="left">{{form.summary}}</td>
-                        <td width="8%" align="left"  nowrap="nowrap" bgcolor="#f1f1f1">测试负责人：</td>
-                        <td align="left">{{form.name}}</td>
-                    </tr>
-                    <tr>
                         <td width=8% align="left" nowrap="nowrap" bgcolor="#f1f1f1"><span style="color:red">*</span>请求地址：</td>
                         <td width=12% align="left"> {{form.interfDns}}{{form.interfDns.errors}}</td>
                         <td width=8% align="left" nowrap="nowrap" bgcolor="#f1f1f1">路径：</td>
                         <td width=35% align="left"> {{form.interfPath}}</td>
-
                     </tr>
+                    <!--<tr>-->
+                        <!--<td width="8%" align="left"  nowrap="nowrap" bgcolor="#f1f1f1">用例摘要：</td>-->
+                        <!--<td align="left">{{form.summary}}</td>-->
+                        <!--<td width="8%" align="left"  nowrap="nowrap" bgcolor="#f1f1f1">测试负责人：</td>-->
+                        <!--<td align="left">{{form.name}}</td>-->
+                    <!--</tr>-->
                     <tr>
                         <td width=8% align="left" nowrap="nowrap" bgcolor="#f1f1f1">请求方法：</td>
                         <td width=20% align="left"> {{form.interfMethod}}</td>

@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <title>添加项目信息</title>
+    <title>接口用例管理</title>
     <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}"/>
     <link rel="stylesheet" href="{% static 'css/css.css' %}"/>
     <script type="text/javascript" src="{% static 'js/jquery1.9.0.min.js' %}"></script>
@@ -63,14 +63,14 @@ window.onload = function() {
                 <a href="{%url 'owcf' %}">人员信息</a>
 		        <a href="{%url 'projconf' %}">项目信息</a>
             </div>
-            <div>
-                <span>用例维护</span>
-                <a href="{%url 'casecf' %}">新增用例</a>
-                <a href="{%url 'caseupd' %}">编辑用例</a>
-            </div>
-            <div>
+            <div >
                 <span>接口配置</span>
-                <a href="{%url 'intfcf' %}">接口信息配置</a>
+                <a href="{%url 'intfcf' %}">接口信息</a>
+            </div>
+            <div >
+                <span>接口用例</span>
+                <a href="{%url 'casecf' %}">添加接口用例</a>
+                <a href="{%url 'caseupd' %}">编辑用例</a>
             </div>
         </div>
     </div>
@@ -98,7 +98,7 @@ window.onload = function() {
             <div class="title-right"><strong>用例添加</strong></div>
             <div class="alert">
                 <button type="button" class="close" data-dismiss="alert">&times;</button>
-                温馨提示：新增用例
+                温馨提示：添加接口用例
             </div>
             <form action="" class="form-inline" method="post" role="form">
                 <div style="width:900px;margin:auto;">
@@ -112,23 +112,25 @@ window.onload = function() {
              <!--不用ModelForm的样式-->
             <table class="table table-bordered">
                     <tr>
-                        <td align="right" align="right" nowrap="nowrap" bgcolor="#f1f1f1">所属项目：</td>
-                        <td align="left">{{form.projectName}}</td>
+                        <td width=8% align="left"  nowrap="nowrap" bgcolor="#f1f1f1">接口名称：</td>
+                        <td width=10% align="left" >{{form.interfName}}</td>
+                        <td width=8% align="left" nowrap="nowrap" bgcolor="#f1f1f1">负责人：</td>
+                        <td width=45% align="left">{{form.name}}</td>
                     </tr>
+                        <td width=8% align="left" nowrap="nowrap" bgcolor="#f1f1f1">用例摘要：</td>
+                        <td width=35% align="left"> {{form.summary}}</td>
+                        <td width=8% align="left"  nowrap="nowrap" bgcolor="#f1f1f1">所属项目：</td>
+                        <td width=12% align="left" >{{form.projectName}}</td>
                     <tr>
-                        <td align="right" nowrap="nowrap" bgcolor="#f1f1f1">创建人：</td>
-                        <td align="left">{{form.name}}</td>
-                    </tr>
-                    <tr>
-                        <td align="right" nowrap="nowrap" bgcolor="#f1f1f1">用例摘要：</td>
-                        <td> {{form.summary}}</td>
-                    </tr>
-                    <tr>
-                        <td align="right" nowrap="nowrap" bgcolor="#f1f1f1">返回值检查：</td>
+                        <td align="left" nowrap="nowrap" bgcolor="#f1f1f1">返回值检查：</td>
                         <td> {{form.checkPoint}}</td>
                     </tr>
+                    <!--<tr>-->
+                        <!--<td align="left" nowrap="nowrap" bgcolor="#f1f1f1">接口请求值：</td>-->
+                        <!--<td> {{form.interfParams}}</td>-->
+                    <!--</tr>-->
                    <tr>
-                        <td align="right" nowrap="nowrap" bgcolor="#f1f1f1">用例详情：</td>
+                        <td align="left" nowrap="nowrap" bgcolor="#f1f1f1">用例详情：</td>
                         <td> {{form.details}} </td>
                     </tr>
                 </table>

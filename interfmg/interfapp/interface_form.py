@@ -11,16 +11,23 @@ class InterfaceForm(forms.Form):
     interfPath = forms.CharField(max_length=50,required=False,label="路径")
     interfMethod = forms.CharField(widget=forms.widgets.Select(choices=METHOD_TYPE,attrs={'align':'left'}),label="请求方法")
     interfParams = forms.CharField(max_length=255,label="请求参数",error_messages={'required':'请求参数必填'},widget=forms.Textarea(attrs={'style':'width:792px;'}))#attrs={'class':'span10'}
-    excuteResult = forms.CharField(max_length=5,label="执行结果",required=False)
-    name = forms.ModelChoiceField(label="测试负责人",queryset=Owner.objects.all().filter(role='测试'))
-    summary  = forms.ModelChoiceField(label="用例摘要",queryset=Case.objects.all())
+    result = forms.CharField(max_length=5,label="执行结果",required=False)
+    # name = forms.ModelChoiceField(label="测试负责人",queryset=Owner.objects.all().filter(role='测试'))
+    # summary  = forms.ModelChoiceField(label="用例摘要",queryset=Case.objects.all())
 
 class CaseForm(forms.Form):
     projectName = forms.ModelChoiceField(label="开发负责人",queryset=Project.objects.all())
     name = forms.ModelChoiceField(label="开发负责人",queryset=Owner.objects.all().filter(role='测试'))
-    summary = forms.CharField(max_length=100,label="用例摘要", widget=forms.TextInput(attrs={'class':'span10'}))
-    details = forms.CharField(max_length=255,label="用例详情",widget=forms.Textarea(attrs={'class':'span10'}),required=False)
-    checkPoint = forms.CharField(max_length=200,label="返回值检查",widget=forms.TextInput(attrs={'class':'span10'}),required=False)
+    summary = forms.CharField(max_length=100,label="用例摘要", widget=forms.TextInput(attrs={'style':'width:320px;'}))
+    details = forms.CharField(max_length=255,label="用例详情",widget=forms.Textarea(attrs={'rows':4,'style':'width:500px'}),required=False)
+    checkPoint = forms.CharField(max_length=200,label="返回值检查",widget=forms.TextInput(attrs={'style':'width:320px;'}),required=False)
+    interfName = forms.ModelChoiceField(label="接口名称",queryset=Interfaces.objects.all())
+
+
+
+
+
+
 
 class OwnerForm(forms.Form):
     ROLE_TYPE=(('测试','测试'),('开发','开发'),)

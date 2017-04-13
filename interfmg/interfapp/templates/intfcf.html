@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>接口信息配置</title>
+<title>接口用例管理</title>
 <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}" />
 <link rel="stylesheet" href="{% static 'css/css.css' %}" />
 <script type="text/javascript" src="{% static 'js/jquery1.9.0.min.js' %}"></script>
@@ -58,15 +58,14 @@ window.onload = function() {
 		<a href="{%url 'projconf' %}">项目信息</a>
 	</div>
     <div >
-		<span>用例维护</span>
-		<a href="{%url 'casecf' %}">新增用例</a>
-        <a href="{%url 'caseupd' %}">编辑用例</a>
-	</div>
+        <span>接口配置</span>
+        <a href="{%url 'intfcf' %}">接口信息</a>
+    </div>
     <div >
-		<span>接口配置</span>
-		<a href="{%url 'intfcf' %}">接口信息配置</a>
-        <a href="{%url 'intfrun' %}">接口执行</a>
-	</div>
+        <span>接口用例</span>
+        <a href="{%url 'casecf' %}">添加接口用例</a>
+        <a href="{%url 'caseupd' %}">编辑用例</a>
+    </div>
     </div>
 </div>
      <div class="Switch"></div>
@@ -101,17 +100,17 @@ window.onload = function() {
 
      <!--<table class="table table-bordered table-striped table-hover">-->
      <tbody>
-       <tr align="center">
+       <tr align="left">
            <td width="40" nowrap="nowrap"><strong>接口名称</strong></td>
            <td width="30" nowrap="nowrap"><strong>项目名称</strong></td>
            <!--<td width="30" nowrap="nowrap"><strong>用例编号</strong></td>-->
-           <td width="80" nowrap="nowrap"><strong>用例摘要</strong></td>
+           <!--<td width="80" nowrap="nowrap"><strong>用例摘要</strong></td>-->
            <td width="80" nowrap="nowrap"><strong>请求地址</strong></td>
            <td width="70" nowrap="nowrap"><strong>路径</strong></td>
            <td width="30" nowrap="nowrap"><strong>请求方法</strong></td>
            <td width="200" nowrap="nowrap"><strong>请求参数</strong></td>
            <td width="30" nowrap="nowrap"><strong>执行结果</strong></td>
-           <td width="30" nowrap="nowrap"><strong>负责人</strong></td>
+           <!--<td width="30" nowrap="nowrap"><strong>负责人</strong></td>-->
            <!--<td width="60" nowrap="nowrap"><strong>创建时间</strong></td>-->
            <td width="30" nowrap="nowrap"><strong>操作</strong></td>
        </tr>
@@ -119,15 +118,15 @@ window.onload = function() {
        <tr align="left">
            <td nowrap="nowrap">{{item.interfName}}</td>
            <td nowrap="nowrap">{{item.projectName}}</td>
-           <td nowrap="nowrap" title="{{item.summary}}"><div style="overflow-x:hidden;overflow-y:hidden;">{{item.summary}}</div></td>
+           <!--<td nowrap="nowrap" title="{{item.summary}}"><div style="overflow-x:hidden;overflow-y:hidden;">{{item.summary}}</div></td>-->
            <td nowrap="nowrap" title="{{item.interfDns}}"><div style="overflow-x:hidden;overflow-y:hidden;">{{item.interfDns}}</div></td>
            <td nowrap="nowrap" title="{{item.interfPath}}"><div style="overflow-x:hidden;overflow-y:hidden;">{{item.interfPath}}</div></td>
            <td nowrap="nowrap">{{item.interfMethod}}</td>
-           <td nowrap="nowrap" title="{{item.interfParams}}"><div style="width:200px;overflow-x:hidden;overflow-y:hidden;">{{item.interfParams}}</div></td>
-           <td nowrap="nowrap">{{item.excuteResult}}</td>
-           <td nowrap="nowrap">{{item.name}}</td>
+           <td nowrap="nowrap" title="{{item.interfParams}}"><div style="width:250px;overflow-x:hidden;overflow-y:hidden;">{{item.interfParams}}</div></td>
+           <td nowrap="nowrap">{{item.result}}</td>
+           <!--<td nowrap="nowrap">{{item.name}}</td>-->
            <td nowrap="nowrap"><a href="{% url 'intfdel' item.id %}" onclick="return confirm('确认删除吗？')">删除</a>
-           <a href="{% url 'intfrun' item.id %}" onclick="">执行</a>
+           <a href="{% url 'intfupd' item.id %}" onclick="">编辑</a>
            </td>
        </tr>
        {% endfor %}

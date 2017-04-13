@@ -35,5 +35,6 @@ urlpatterns = [
     url(r'^caseadd/$',views.caseadd,name='caseadd'),
     url(r'^casedel-(?P<id>\d+)/$',views.casedel,name='casedel'),
     url(r'^caseupd/',views.caseupd,name='caseupd'),
+    url(r'^intfupd-(?P<id>\d+)/$',views.intfupd,name='intfupd'),
 
 ]

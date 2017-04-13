@@ -104,7 +104,7 @@ def owdel(request,id):
 
 def intfcf(request):
     limit = 10 # 每页显示的记录数
-    data = Interfaces.objects.all().filter(dels=0).order_by("id")
+    data = Interfaces.objects.all().order_by("id")
     paginator = Paginator(data, limit)  # 实例化一个分页对象
     page = request.GET.get('page')  # 获取页码
     try:
@@ -128,10 +128,8 @@ def intfadd(request):
             interfPath = data['interfPath']
             interfMethod = data['interfMethod']
             interfParams = data['interfParams']
-            name = data['name']
-            summary = data['summary']
             data = Interfaces(projectName=projectName,interfName=interfName,interfDns=interfDns,
-             interfPath=interfPath,interfParams=interfParams,interfMethod=interfMethod,name=name,summary=summary)
+             interfPath=interfPath,interfParams=interfParams,interfMethod=interfMethod)
             data.save()
             return HttpResponseRedirect('/interfapp/intfcf/')
         else:
@@ -141,15 +139,28 @@ def intfadd(request):
         return render_to_response('intfadd.html', {'form': form}, context_instance=RequestContext(request))
 
 def intfrun(request,id):
-    reqobj = Interfaces.objects.filter(id=id)
-
-
-    # url = request.GET.get("interfDns","")
-    #
-    # req = request.get(url)
-    # print(req.text)
+    reqobj = Case.objects.filter(id=id)
     return render(request,'intfrun.html',{'data':reqobj})
-    # return render('intfrun.html',{'resp':req.text})
+
+@csrf_exempt
+def intfupd(request,id):
+    if request.method=='POST':
+        interfName = request.POST['interfName']
+        # projectName = request.POST['projectName']
+        # interfDns = request.POST['interfDns']
+        # interfPath = request.POST['interfPath']
+        # interfMethod = request.POST['interfMethod']
+        interfParams = request.POST['interfParams']
+        print interfName
+        Interfaces.objects.filter(id=int(id)).update(interfName=interfName,
+                   #                                   projectName=projectName,interfDns=interfDns,
+                   # interfPath=interfPath,interfMethod=interfMethod,
+                                                     interfParams=interfParams)
+        return HttpResponseRedirect('interfapp/intfcf')
+    else:
+        data = Interfaces.objects.filter(id=int(id))
+        return render(request,'intfupd.html',{'data':data})
+
 @csrf_exempt
 def sendreq(request):
     # if request.method=='GET':
@@ -181,14 +192,19 @@ def sendreq(request):
         return HttpResponse(responses)
 
 def intfdel(request,id):
-    p = Interfaces.objects.get(id=id)
-    p.dels = 1
-    p.save()
+    p = get_object_or_404(Interfaces,pk=int(id))
+    p = Owner.objects.get(id=id)
+    if ( p.case_set.all().count()>0)  :
+        return HttpResponse('有关联项不能删除')
+    else:
+        print('无关联',p)
+        p.delete()
     return HttpResponseRedirect('/interfapp/intfcf/')
 
 def casecf(request):
     limit = 10 # 每页显示的记录数
     data = Case.objects.all().order_by("id") #.values('id','summary','details','owner','project')
+    print type(data)
     paginator = Paginator(data, limit)  # 实例化一个分页对象
     page = request.GET.get('page')  # 获取页码
     try:
@@ -213,7 +229,8 @@ def caseadd(request):
             name = data['name']
             projectName = data['projectName']
             checkPoint = data['checkPoint']
-            data = Case(summary=summary,details=details,name=name,projectName=projectName,checkPoint=checkPoint)
+            interfName=data['interfName']
+            data = Case(summary=summary,details=details,name=name,projectName=projectName,checkPoint=checkPoint,interfName=interfName)
             data.save()
             return HttpResponseRedirect('/interfapp/casecf/')
         else:
