@@ -108,13 +108,13 @@ window.onload = function() {
                         <td width=8% align="left" align="left" nowrap="nowrap" bgcolor="#f1f1f1" ><span style="color:red">*</span>接口名称：</td>
                         <td width=12% align="left"><input id="interfName" name="interfName" type="text" value="{{item.interfName}}"/></td>
                         <td width=8%  align="left"  nowrap="nowrap" bgcolor="#f1f1f1">项目名称：</td>
-                        <td width=45%  align="left">{{item.projectName}}</td>
+                        <td width=45%  align="left"><input id="projectName" readonly="true" name="projectName" value="{{item.projectName}}"/></td>
                     </tr>
                     <tr>
                         <td width=8% align="left" nowrap="nowrap" bgcolor="#f1f1f1"><span style="color:red">*</span>请求地址：</td>
-                        <td width=12% align="left"> {{item.interfDns}}</td>
+                        <td width=12% align="left"><input readonly="readonly" type="text" id="interfDns" name="interfDns"  value="{{item.interfDns}}"/></td>
                         <td width=8% align="left" nowrap="nowrap" bgcolor="#f1f1f1">路径：</td>
-                        <td width=35% align="left"> {{item.interfPath}}</td>
+                        <td width=35% align="left"><input id="interfPath" name="interfPath" type="text" style="width:250px" value="{{item.interfPath}}"/></td>
                     </tr>
                     <!--<tr>-->
                         <!--<td width="8%" align="left"  nowrap="nowrap" bgcolor="#f1f1f1">用例摘要：</td>-->
@@ -124,7 +124,7 @@ window.onload = function() {
                     <!--</tr>-->
                     <tr>
                         <td width=8% align="left" nowrap="nowrap" bgcolor="#f1f1f1">请求方法：</td>
-                        <td width=20% align="left"> {{item.interfMethod}}</td>
+                        <td width=20% align="left"><input readonly="readonly" id="interfMethod" name="interfMethod" value="{{item.interfMethod}}"/></td>
                     </tr>
                    <tr>
                         <td  align="left" nowrap="nowrap" bgcolor="#f1f1f1"><span style="color:red">*</span>请求参数：</td>

@@ -10,7 +10,7 @@ class InterfaceForm(forms.Form):
     interfDns = forms.URLField(max_length=30,error_messages={'required':'请求地址必填'},label="请求地址")
     interfPath = forms.CharField(max_length=50,required=False,label="路径")
     interfMethod = forms.CharField(widget=forms.widgets.Select(choices=METHOD_TYPE,attrs={'align':'left'}),label="请求方法")
-    interfParams = forms.CharField(max_length=255,label="请求参数",error_messages={'required':'请求参数必填'},widget=forms.Textarea(attrs={'style':'width:792px;'}))#attrs={'class':'span10'}
+    interfParams = forms.CharField(max_length=255,label="请求参数",error_messages={'required':'请求参数必填'},widget=forms.Textarea(attrs={'style':'width:792px;','placeholder':"get请求参数填写url格式，用&连接"}))#attrs={'class':'span10'}
     result = forms.CharField(max_length=5,label="执行结果",required=False)
     # name = forms.ModelChoiceField(label="测试负责人",queryset=Owner.objects.all().filter(role='测试'))
     # summary  = forms.ModelChoiceField(label="用例摘要",queryset=Case.objects.all())

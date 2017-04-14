@@ -86,8 +86,10 @@ window.onload = function() {
 </ul>
    <div class="title_right">
        <span class="pull-right margin-bottom-5">
+           <!--<select name="接口名称"  form={{form.interfName}}已有接口</select>-->
            <a  class="btn btn-info btn-small"  id="modal-9" href="{% url 'caseadd' %}" role="button" data-toggle="modal">
-               <i class="icon-plus icon-white"></i> 添加用例</a></span><strong>接口用例</strong>
+               <i class="icon-plus icon-white"></i> 添加用例</a></span>
+       <strong>接口用例</strong>
    </div>
      {% if form.errors %}
          <p style="color:red;" 请输入有效数据{{ form.errors|pluralize }}></p>
@@ -110,7 +112,7 @@ window.onload = function() {
            <td width="120" nowrap="nowrap"><strong>返回值检查</strong></td>
            <td width="50" nowrap="nowrap"><strong>接口路径</strong></td>
            <td width="160" nowrap="nowrap"><strong>请求值</strong></td>
-           <!--<td width="60" nowrap="nowrap"><strong>创建时间</strong></td>-->
+           <td width="30" nowrap="nowrap"><strong>tester</strong></td>
            <td width="30" nowrap="nowrap"><strong>操作</strong></td>
        </tr>
        {% for item in data %}
@@ -120,9 +122,10 @@ window.onload = function() {
            <td nowrap="nowrap">{{item.interfName}} </td>
            <td nowrap="nowrap">{{item.summary}}</td>
            <!--<td nowrap="nowrap">{{item.details}}</td>-->
-           <td nowrap="nowrap">{{item.checkPoint}}</td>
+           <td nowrap="nowrap" style="color:green;"><strong>{{item.checkPoint}}</strong></td>
            <td nowrap="nowrap">{{item.interfName.interfPath}}</td>
            <td nowrap="nowrap">{{item.interfName.interfParams}}</td>
+           <td nowrap="nowrap">{{item.name}}</td>
            <td nowrap="nowrap"><a href="{%url 'casedel' item.id%}" onclick="return confirm('确认删除吗？')">删除</a>
                <a href="{% url 'intfrun' item.id %}" onclick="">执行</a></td>
                <!--<a data-toggle="modal" href="{%url 'projupd'%}">编辑</a></td>-->

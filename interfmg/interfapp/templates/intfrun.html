@@ -147,34 +147,29 @@ window.onload = function() {
 
 </div>
 <script>
-<!--处理get url类型的请求参数-->
-<!--$(document).ready(function(){-->
-    <!--$("#sendbtn").click(function(){-->
-    <!--var url1 = $("#url").val()-->
-    <!--var url2 = $("#path").val()-->
-    <!--var mpra = $("#interfParams").val()-->
-    <!--alert($("#interfParams").val())-->
-    <!--var url = url1+url2+'?'+mpra-->
-    <!--$.get('{% url "sendreq" %}',-->
-    <!--{"url":url,"data":"data"},function(resp){-->
-    <!--$("#respval").JSONView(resp)-->
-    <!--})-->
-    <!--});-->
-    <!--})-->
-<!--处理post urlencoded请求：-->
+<!--通过jquery发送get和post请求-->
 $(document).ready(function(){
+var method = $("#methods").val()
     $("#sendbtn").click(function(){
-    <!--var url1 = $("#url").val()-->
-    <!--var url2 = $("#path").val()-->
-    <!--var data = $("#interfParams").val()-->
-    <!--alert($("#interfParams").val())-->
-    <!--var url = url1+url2-->
-    $.post('{% url "sendreq" %}',
-    {"id":$("#intfId").val()},function(x){
-    $("#respval").JSONView(x)
+    if (method=="GET"){
+        var url1 = $("#url").val()
+        var url2 = $("#path").val()
+        var mpra = $("#interfParams").val()
+        var url = url1+url2+'?'+mpra
+        $.get('{% url "sendreq" %}',
+        {"url":url},function(resp){
+        $("#respval").JSONView(resp)
+        })
+        }else
+        {
+            $.post('{% url "sendreq" %}',
+            {"id":$("#intfId").val()},function(x){
+            $("#respval").JSONView(x)
+            })
+        }
+        });
     })
-    });
-    })
+
 
 </script>
 

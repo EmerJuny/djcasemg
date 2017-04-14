@@ -102,28 +102,20 @@ window.onload = function() {
             </div>
             <form action="" class="form-inline" method="post" role="form">
                 <div style="width:900px;margin:auto;">
-             <!--不用ModelForm的样式-->
-            <!--{% csrf_token %}-->
-            <!--<table class="form-control offset4">-->
-            <!--{{ form.as_table }}-->
-            <!--</table>-->
-		    <!--&nbsp&nbsp&nbsp&nbsp-->
-            <!--<input class="btn btn-info form-control offset5 "  type = "submit" value = "提 交" />-->
-             <!--不用ModelForm的样式-->
             <table class="table table-bordered">
                     <tr>
                         <td width=8% align="left"  nowrap="nowrap" bgcolor="#f1f1f1">接口名称：</td>
-                        <td width=10% align="left" >{{form.interfName}}</td>
+                        <td width=10% align="left" >{{form.interfName}}{{form.interfName.errors}}</td>
                         <td width=8% align="left" nowrap="nowrap" bgcolor="#f1f1f1">负责人：</td>
-                        <td width=45% align="left">{{form.name}}</td>
+                        <td width=45% align="left">{{form.name}}{{form.name.errors}}</td>
                     </tr>
                         <td width=8% align="left" nowrap="nowrap" bgcolor="#f1f1f1">用例摘要：</td>
-                        <td width=35% align="left"> {{form.summary}}</td>
+                        <td width=35% align="left"> {{form.summary}}{{form.summary.errors}}</td>
                         <td width=8% align="left"  nowrap="nowrap" bgcolor="#f1f1f1">所属项目：</td>
                         <td width=12% align="left" >{{form.projectName}}</td>
                     <tr>
                         <td align="left" nowrap="nowrap" bgcolor="#f1f1f1">返回值检查：</td>
-                        <td> {{form.checkPoint}}</td>
+                        <td> {{form.checkPoint}}{{form.checkPoint.errors}}</td>
                     </tr>
                     <!--<tr>-->
                         <!--<td align="left" nowrap="nowrap" bgcolor="#f1f1f1">接口请求值：</td>-->
@@ -131,7 +123,7 @@ window.onload = function() {
                     <!--</tr>-->
                    <tr>
                         <td align="left" nowrap="nowrap" bgcolor="#f1f1f1">用例详情：</td>
-                        <td> {{form.details}} </td>
+                        <td> {{form.details}}{{form.details.errors}} </td>
                     </tr>
                 </table>
                 <table class="margin-bottom-20  table no-border">

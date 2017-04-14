@@ -10,6 +10,7 @@ from django import  forms
 from interfapp.models import Owner
 import requests
 import  json
+import copy
 from django.db.models.deletion import ProtectedError
 # Create your views here.
 
@@ -146,33 +147,39 @@ def intfrun(request,id):
 def intfupd(request,id):
     if request.method=='POST':
         interfName = request.POST['interfName']
-        # projectName = request.POST['projectName']
-        # interfDns = request.POST['interfDns']
-        # interfPath = request.POST['interfPath']
-        # interfMethod = request.POST['interfMethod']
         interfParams = request.POST['interfParams']
-        print interfName
         Interfaces.objects.filter(id=int(id)).update(interfName=interfName,interfParams=interfParams)
-                   #                                   projectName=projectName,interfDns=interfDns,
-                   # interfPath=interfPath,interfMethod=interfMethod,
-
         return HttpResponseRedirect('/interfapp/intfcf')
     else:
         data = Interfaces.objects.filter(id=int(id))
         return render(request,'intfupd.html',{'data':data})
 
 @csrf_exempt
+# 复制接口同时打开编辑页面
+def intfclo(request,id):
+    if request.method=='POST':
+        interfName = request.POST['interfName']
+        interfPath = request.POST['interfPath']
+        interfParams = request.POST['interfParams']
+        t= copy.deepcopy(Interfaces.objects.get(pk=int(id)))
+        t.interfName=interfName
+        t.interfPath=interfPath
+        t.interfParams=interfParams
+        t.pk=None
+        t.save()
+        return HttpResponseRedirect('/interfapp/intfcf')
+    else:
+        data = Interfaces.objects.filter(id=int(id))
+        return render(request,'intfupd.html',{'data':data})
+
+# 发送请求
+@csrf_exempt
 def sendreq(request):
-    # if request.method=='GET':
-    #  url = request.GET['url']
-    #     mpra= request.GET['data']
-    #     print mpra
-    #     responses = requests.get(url)
-    #     return HttpResponse(responses.text)
-    #     url = request.POST['url']
-    #     data= request.POST['data']
-    #     url1 = url.encode('utf-8')
-    #     data1 = eval(data.encode('utf-8'))
+    if request.method=='GET':
+        url = request.GET['url']
+        responses = requests.get(url)
+        return HttpResponse(responses.text)
+    else:
         id = request.POST['id']
         datas = Interfaces.objects.filter(id=int(id))
         for i in datas:
@@ -180,15 +187,10 @@ def sendreq(request):
             url2=i.interfPath
             data=i.interfParams
         url=(url1+'/'+url2).encode('utf-8')
-
+        # 添加header
         headers1 = {'Content-Type':'application/x-www-form-urlencoded'}
-        print 'interfParams:',data
-        # h1=headers1.encode('utf-8')
-        # headers = eval(h1)
-        data1=eval(data)
-        print 'data:',data1
+        data1=eval(data) #将unicode类型转换为字典类型
         responses = requests.post(url,headers=headers1,data=data1)
-        # print 'resp:',responses.text
         return HttpResponse(responses)
 
 def intfdel(request,id):
@@ -204,9 +206,10 @@ def intfdel(request,id):
 def casecf(request):
     limit = 10 # 每页显示的记录数
     data = Case.objects.all().order_by("id") #.values('id','summary','details','owner','project')
-    print type(data)
     paginator = Paginator(data, limit)  # 实例化一个分页对象
     page = request.GET.get('page')  # 获取页码
+    form=CaseForm()
+
     try:
         data = paginator.page(page)  # 获取某页对应的记录
     except PageNotAnInteger:  # 如果页码不是个整数
@@ -218,20 +221,19 @@ def casecf(request):
 
 @csrf_exempt
 def caseadd(request):
-    error = []
     if request.method == 'POST':
         form = CaseForm(request.POST)
         if form.is_valid():
             data = form.cleaned_data
-            # id = data['id']
             summary = data['summary']
             details = data['details']
             name = data['name']
             projectName = data['projectName']
             checkPoint = data['checkPoint']
             interfName=data['interfName']
-            data = Case(summary=summary,details=details,name=name,projectName=projectName,checkPoint=checkPoint,interfName=interfName)
+            data = Case(summary=summary,details=details,projectName=projectName,name=name,checkPoint=checkPoint,interfName=interfName)
             data.save()
+            print 'hehe'
             return HttpResponseRedirect('/interfapp/casecf/')
         else:
             return render_to_response("caseadd.html", locals(), RequestContext(request))
