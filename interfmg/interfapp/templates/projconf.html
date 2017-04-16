@@ -63,8 +63,8 @@ window.onload = function() {
     </div>
     <div >
         <span>接口用例</span>
-        <a href="{%url 'casecf' %}">添加接口用例</a>
-        <a href="{%url 'caseupd' %}">编辑用例</a>
+        <a href="{%url 'casecf' %}">接口用例</a>
+
     </div>
     </div>
 </div>
@@ -89,9 +89,6 @@ window.onload = function() {
            <a  class="btn btn-info btn-small"  id="modal-9" href="{% url 'projadd' %}" role="button" data-toggle="modal">
                <i class="icon-plus icon-white"></i> 添加项目信息</a></span><strong>项目配置信息</strong>
    </div>
-     {% if form.errors %}
-         <p style="color:red;" 请输入有效数据{{ form.errors|pluralize }}></p>
-     {% endif %}
 
      <form action="" method="get" role="form">{% csrf_token %}
          <div class="form-inline"></div>
@@ -110,8 +107,9 @@ window.onload = function() {
        <tr align="center">
            <td nowrap="nowrap">{{item.projectName}}</td>
            <td nowrap="nowrap">{{item.name}}</td>
-           <td nowrap="nowrap"><a href="{%url 'projdel' item.id%}" onclick="return confirm('确认删除吗？')">删除</a></td>
-               <!--<a data-toggle="modal" href="{%url 'projupd'%}">编辑</a></td>-->
+           <td nowrap="nowrap"><a href="{% url 'projupd' item.id %}" onclick="" >编辑</a>
+           <a href="{%url 'projdel' item.id%}" onclick="return confirm('确认删除吗？')">删除</a>
+           </td>
        </tr>
        {% endfor %}
      </tbody>

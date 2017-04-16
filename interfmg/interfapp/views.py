@@ -56,6 +56,19 @@ def projdel(request,id):
         entry.delete()
         return HttpResponseRedirect('/interfapp/projconf')
 
+@csrf_exempt
+def projupd(request,id):
+    if request.method=='POST':
+        projectName = request.POST['projectName']
+        name = request.POST['name']
+        owner = Owner.objects.get(name=name)
+        Project.objects.filter(id=int(id)).update(projectName=projectName,name=owner.id)
+        return HttpResponseRedirect('/interfapp/projconf/')
+    else:
+        data = Project.objects.filter(id=int(id))
+        names = Owner.objects.filter(role='开发')
+        return  render(request,'projupd.html',locals())
+
 def owqry(request):
     limit = 15 # 每页显示的记录数
     data = Owner.objects.all().order_by("id")
@@ -99,13 +112,21 @@ def owdel(request,id):
         entry.delete()
         return HttpResponseRedirect('/interfapp/owcf/')
 
-
-
-
+@csrf_exempt
+def owupd(request,id):
+    if request.method=='POST':
+        name = request.POST['name1']
+        um = request.POST['um']
+        print (name)
+        Owner.objects.filter(id=int(id)).update(name=name,um=um)
+        return HttpResponseRedirect('/interfapp/owcf/')
+    else:
+        data = Owner.objects.filter(id=int(id))
+        return  render(request,'owupd.html',{'data':data})
 
 def intfcf(request):
     limit = 10 # 每页显示的记录数
-    data = Interfaces.objects.all().order_by("id")
+    data = Interfaces.objects.all().order_by("interfName")
     paginator = Paginator(data, limit)  # 实例化一个分页对象
     page = request.GET.get('page')  # 获取页码
     try:
@@ -205,10 +226,9 @@ def intfdel(request,id):
 
 def casecf(request):
     limit = 10 # 每页显示的记录数
-    data = Case.objects.all().order_by("id") #.values('id','summary','details','owner','project')
+    data = Case.objects.all().order_by("summary") #.values('id','summary','details','owner','project')
     paginator = Paginator(data, limit)  # 实例化一个分页对象
     page = request.GET.get('page')  # 获取页码
-    form=CaseForm()
 
     try:
         data = paginator.page(page)  # 获取某页对应的记录
@@ -233,7 +253,6 @@ def caseadd(request):
             interfName=data['interfName']
             data = Case(summary=summary,details=details,projectName=projectName,name=name,checkPoint=checkPoint,interfName=interfName)
             data.save()
-            print 'hehe'
             return HttpResponseRedirect('/interfapp/casecf/')
         else:
             return render_to_response("caseadd.html", locals(), RequestContext(request))
@@ -246,12 +265,78 @@ def casedel(request,id):
     entry.delete()
     return HttpResponseRedirect('/interfapp/casecf/')
 
-def caseupd(request):
-    pass
-    # X.save(update_fields=['fields'])  更新时指定列保存
+def caseupd(request,id):
+    if request.method=='POST':
+        # interfParams = request.POST['interfParams']
+        checkPoint = request.POST['checkPoint']
+        summary = request.POST['summary']
+        t =Case.objects.get(id=int(id))
+        print(t.interfName.id)
+        # Interfaces.objects.filter(id=t.interfName.id).update(interfParams=interfParams)
+        Case.objects.filter(id=int(id)).update(checkPoint=checkPoint,summary=summary)
+
+        return HttpResponseRedirect('/interfapp/casecf')
+    else:
+        data = Case.objects.filter(id=int(id))
+        return render(request,'caseupd.html',{'data':data})
+
+# 用例查询
+def caseqry(request):
+    data1 = Case.objects.all()
+    if request.method=='GET':
+        limit = 10
+        id = request.GET['id']
+        interfName=request.GET['interfName']
+        print (interfName)
+        projectName=request.GET['projectName']
+        # actname = Interfaces.objects.get(id=interfName)
+        # print (actname.interfName)
+        print (id)
+        print(int(id)>0)
+        if int(id)>0 :
+            data = Case.objects.filter(id=id).order_by("summary")
+        # elif interfName is not None  and projectName is not None:
+        #     data = Case.objects.filter(projectName=projectName,interfName_id=interfName).order_by("summary")
+        # elif interfName is not None:
+        #     data = Case.objects.filter(interfName_id=interfName).order_by("summary")
+        # else:
+        #     data = Case.objects.all()
+        paginator = Paginator(data, limit)  # 实例化一个分页对象
+        page = request.GET.get('page')  # 获取页码
+        try:
+            data = paginator.page(page)  # 获取某页对应的记录
+        except PageNotAnInteger:  # 如果页码不是个整数
+            data = paginator.page(1)  # 取第一页的记录
+        except EmptyPage:  # 如果页码太大，没有相应的记录
+            data = paginator.page(paginator.num_pages)
+    return render(request,'casecf.html',locals())
+@csrf_exempt
+def caseclo(request,id):
+    if request.method=='POST':
+        interfParams = request.POST['interfParams']
+        checkPoint = request.POST['checkPoint']
+        summary = request.POST['summary']
+        interfName = request.POST['interfName']
+        # Case.objects.filter(id=int(id)).update(checkPoint=checkPoint,summary=summary)
+        # Interfaces.objects.filter(interfName=interfName).update(interfParams=interfParams)
+        s1=Case.objects.get(id=int(id))
+        s =copy.deepcopy(s1)
+        t = copy.deepcopy(Interfaces.objects.get(id=s1.interfName.id))
+        print('修改前：',t.id)
+        t.interfParams=interfParams
+        t.pk = None
+        t.save()
+        print('修改后:',t.id)
+        s.summary=summary
+        s.checkPoint=checkPoint
+        s.interfName_id = t.id
+        s.pk=None
+        s.save()
+        return HttpResponseRedirect('/interfapp/casecf')
+    else:
+        data = Case.objects.filter(id=int(id))
+        return render(request,'caseupd.html',{'data':data})
 
 
-def projupd(request):
-    pass
 
 

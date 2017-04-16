@@ -69,8 +69,7 @@ window.onload = function() {
             </div>
             <div >
                 <span>接口用例</span>
-                <a href="{%url 'casecf' %}">添加接口用例</a>
-                <a href="{%url 'caseupd' %}">编辑用例</a>
+                <a href="{%url 'casecf' %}">接口用例</a>
             </div>
         </div>
     </div>
@@ -89,23 +88,29 @@ window.onload = function() {
         <div class="right_cont">
             <ul class="breadcrumb">当前位置：
                 <!--<a href="#">首页</a> <span class="divider">/</span>-->
-                <a href="#">基础信息维护</a> <span class="divider">/</span>添加项目信息
+                <a href="#">基础信息维护</a> <span class="divider">/</span>编辑人员信息
             </ul>
 
-            {% if form.errors %}
-            <p style="color:red;" 请输入有效数据{{ form.errors|pluralize }}></p>
-            {% endif %}
             <!--添加项目表单-->
-            <div class="title-right"><strong>项目信息添加</strong></div>
-            <form action="" class="form-inline" method="post" role="form">
-                {% csrf_token %}
-            <table class="form-control offset4">
-            {{ form.as_table }}
+            <div class="title-right"><strong>人员信息修改</strong></div>
+            {% for item in data %}
+            <form action=""  method="POST" role="form">
+                <div style="width:900px;margin:auto;">
+            <table class="table table-bordered">
+            <tr>
+                <td width=8% align="left" align="left" nowrap="nowrap" bgcolor="#f1f1f1" ><span style="color:red">*</span>姓名：</td>
+                <td width=12% align="left"><input id="name1" name="name1" type="text" value="{{item.name}}"/></td>
+                <td width=8%  align="left"  nowrap="nowrap" bgcolor="#f1f1f1">um：</td>
+                <td width=45%  align="left"><input id="um"  name="um" value="{{item.um}}"/></td>
+            </tr>
             </table>
-		    &nbsp&nbsp&nbsp&nbsp
-            <input class="btn btn-info form-control offset5"  type = "submit" value = "提 交" />
-            </form>
-            </div>
+            <table class="margin-bottom-20  table no-border">
+                    <tr>
+                        <td class="text-center"><input type="submit"  value="保存" class="btn btn-info  "
+                                                       style="width:80px;"/></td>
+                    </tr>
+            </table>
+            </div></form>{% endfor %}
             <!--<p>-->
                 <!--{% if data.has_previous %}-->
                 <!--<a href="?page={{ data.previous_page_number }}">上一页</a>-->

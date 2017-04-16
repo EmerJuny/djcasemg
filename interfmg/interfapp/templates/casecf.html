@@ -63,8 +63,7 @@ window.onload = function() {
 	</div>
     <div >
 		<span>接口用例</span>
-		<a href="{%url 'casecf' %}">添加接口用例</a>
-        <a href="{%url 'caseupd' %}">编辑用例</a>
+		<a href="{%url 'casecf' %}">接口用例</a>
 	</div>
     </div>
 </div>
@@ -91,9 +90,6 @@ window.onload = function() {
                <i class="icon-plus icon-white"></i> 添加用例</a></span>
        <strong>接口用例</strong>
    </div>
-     {% if form.errors %}
-         <p style="color:red;" 请输入有效数据{{ form.errors|pluralize }}></p>
-     {% endif %}
 
      <form action="" method="get" role="form">
          <div class="form-inline"></div>
@@ -104,31 +100,34 @@ window.onload = function() {
      <!--<table class="table table-bordered table-striped table-hover">-->
      <tbody>
        <tr align="left">
-           <td width="20" nowrap="nowrap"><strong>ID</strong></td>
-           <td width="70" nowrap="nowrap"><strong>所属项目</strong></td>
-           <td width="70" nowrap="nowrap"><strong>接口名称</strong></td>
+           <td width="20" nowrap="nowrap">Id</td>
+           <td width="20" nowrap="nowrap">接口Id</td>
+           <td width="70" nowrap="nowrap">接口名称</td>
            <td width="100" nowrap="nowrap"><strong>用例摘要</strong></td>
-           <!--<td width="80" nowrap="nowrap"><strong>用例详情</strong></td>-->
-           <td width="120" nowrap="nowrap"><strong>返回值检查</strong></td>
-           <td width="50" nowrap="nowrap"><strong>接口路径</strong></td>
-           <td width="160" nowrap="nowrap"><strong>请求值</strong></td>
-           <td width="30" nowrap="nowrap"><strong>tester</strong></td>
-           <td width="30" nowrap="nowrap"><strong>操作</strong></td>
+           <!--<td width="80" nowrap="nowrap">用例详情</td>-->
+           <td width="120" nowrap="nowrap">检查点</td>
+           <td width="70" nowrap="nowrap">所属项目</td>
+           <td width="50" nowrap="nowrap">接口路径</td>
+           <td width="160" nowrap="nowrap">请求值</td>
+           <td width="30" nowrap="nowrap">tester</td>
+           <td width="30" nowrap="nowrap">操作</td>
        </tr>
        {% for item in data %}
        <tr align="left">
            <td nowrap="nowrap">{{item.id}}</td>
-           <td nowrap="nowrap">{{item.projectName}}</td>
+           <td nowrap="nowrap">{{item.interfName.id}}</td>
            <td nowrap="nowrap">{{item.interfName}} </td>
            <td nowrap="nowrap">{{item.summary}}</td>
            <!--<td nowrap="nowrap">{{item.details}}</td>-->
-           <td nowrap="nowrap" style="color:green;"><strong>{{item.checkPoint}}</strong></td>
+           <td nowrap="nowrap" style="color:green;">{{item.checkPoint}}</td>
+           <td nowrap="nowrap">{{item.projectName}}</td>
            <td nowrap="nowrap">{{item.interfName.interfPath}}</td>
-           <td nowrap="nowrap">{{item.interfName.interfParams}}</td>
+           <td nowrap="nowrap" title="{{item.interfName.interfParams}}"><div style="width:200px;overflow-x:hidden;overflow-y:hidden;">{{item.interfName.interfParams}}</div></td>
            <td nowrap="nowrap">{{item.name}}</td>
-           <td nowrap="nowrap"><a href="{%url 'casedel' item.id%}" onclick="return confirm('确认删除吗？')">删除</a>
-               <a href="{% url 'intfrun' item.id %}" onclick="">执行</a></td>
-               <!--<a data-toggle="modal" href="{%url 'projupd'%}">编辑</a></td>-->
+           <td nowrap="nowrap"><a href="{% url 'caseupd' item.id %}" onclick="">编辑</a>
+               <a href="{% url 'intfrun' item.id %}" onclick="">执行</a>
+               <a href="{% url 'caseclo' item.id %}" onclick="">复制</a>
+               <a href="{%url 'casedel' item.id%}" onclick="return confirm('确认删除吗？')">删除</a></td>
        </tr>
        {% endfor %}
      </tbody>

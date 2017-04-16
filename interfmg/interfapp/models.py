@@ -10,13 +10,13 @@ class Owner(models.Model):
 	name = models.CharField(max_length=20)
 	um  = models.CharField(max_length=30,null=True)
 	role = models.CharField(max_length=4)
-	def __unicode__(self):
+	def __str__(self):
 		return self.name
 
 class Project(models.Model):
 	projectName  = models.CharField(max_length=20)
 	name = models.ForeignKey(Owner)
-	def __unicode__(self):
+	def __str__(self):
 		return self.projectName
 
 class Interfaces(models.Model):
@@ -31,7 +31,7 @@ class Interfaces(models.Model):
 	projectName = models.ForeignKey(Project)
 	# name = models.ForeignKey(Owner)
 	# dels = models.BooleanField(default=False)
-	def __unicode__(self):
+	def __str__(self):
 		return self.interfName
 
 class Case(models.Model):
@@ -43,7 +43,7 @@ class Case(models.Model):
 	lastUpdateTime = models.DateField(default=now)
 	checkPoint = models.CharField(max_length=200,null=True,blank=True)
 	interfName = models.ForeignKey(Interfaces)
-	def __unicode__(self):
+	def __str__(self):
 		return self.summary
 
 

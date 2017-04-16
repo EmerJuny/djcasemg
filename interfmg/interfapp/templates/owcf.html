@@ -63,8 +63,7 @@ window.onload = function() {
     </div>
     <div >
         <span>接口用例</span>
-        <a href="{%url 'casecf' %}">添加接口用例</a>
-        <a href="{%url 'caseupd' %}">编辑用例</a>
+        <a href="{%url 'casecf' %}">接口用例</a>
     </div>
     </div>
 </div>
@@ -109,8 +108,9 @@ window.onload = function() {
            <td nowrap="nowrap">{{item.name}}</td>
            <td nowrap="nowrap">{{item.um}}</td>
            <td nowrap="nowrap">{{item.role}}</td>
-           <td nowrap="nowrap"><a href="{%url 'owdel' item.id %}" onclick="return confirm('确认删除吗？')">删除</a>
-               </td>
+           <td nowrap="nowrap"><a href="{% url 'owupd' item.id %}" onclick="">编辑</a>
+           <a href="{%url 'owdel' item.id %}" onclick="return confirm('确认删除吗？')">删除</a>
+           </td>
 
        </tr>
        {% endfor %}
