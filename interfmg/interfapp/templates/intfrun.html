@@ -106,8 +106,12 @@ window.onload = function() {
        <tr>
             <td nowrap="nowrap" bgcolor="#f1f1f1">用例摘要</td>
             <td ><input id="summary"  style="width:450px" type="text" aria-readonly="true"  name="summary" value="{{item.summary}}"></td>
-            <td nowrap="nowrap" bgcolor="#f1f1f1">接口id</td>
-            <td><input id="intfId" type="text" aria-readonly="true" name="methods" value="{{item.interfName.id}}"></td>
+            <!--<td nowrap="nowrap" bgcolor="#f1f1f1">接口id</td>-->
+            <td><input id="intfId"  type="hidden"  name="methods" value="{{item.interfName.id}}"></td>
+       </tr>
+       <tr>
+            <td nowrap="nowrap" bgcolor="#f1f1f1">请求头</td>
+            <td ><input id="header"  type="text" aria-readonly="true"  name="header" value="{{item.interfName.header}}"></td>
        </tr>
        {% if item.checkPoint %}
        <tr>
@@ -118,7 +122,7 @@ window.onload = function() {
        {% if item.interfName.interfParams %}
        <tr>
          <td nowrap="nowrap" bgcolor="#f1f1f1">请求参数</td>
-            <td><input id="interfParams" style="width:450px;background:#5bc0de" type="text" aria-readonly="true" name="path" value="{{item.interfName.interfParams}}"></td>
+            <td><textarea id="interfParams"  style="width:700px;height:160px;background:#5bc0de" type="text" aria-readonly="true" name="interfParams" >{{item.interfName.interfParams}}</textarea></td>
        </tr>
        {% endif %}
     </table>
@@ -133,14 +137,14 @@ window.onload = function() {
         <!--</tr>-->
     <!--</table>-->
     {% endfor %}
-    <input id="sendbtn" type="button" value="发送"></br>
+    <input id="sendbtn" type="button" class="btn btn-info" value="发送"></br>
     </div>
     </form>
 
     <span>接口返回值：</span>
     <div id="respval"  style="border:1px solid green;background:yellow;height:auto;min-height:190px;width=800px"></div>
 
-<div id="footer">版权所有：平安证券保障团队 &copy; 2017&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<!--<div id="footer">版权所有：平安证券保障团队 &copy; 2017&nbsp;&nbsp;&nbsp;&nbsp;</div>-->
 
 </div>
 </div>

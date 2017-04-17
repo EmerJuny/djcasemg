@@ -51,7 +51,7 @@ def projdel(request,id):
     entry = get_object_or_404(Project,pk=int(id))
     p = Project.objects.get(id=id)
     if (  p.case_set.all().count()>0 ) :
-        return HttpResponse('有关联项不能删除')
+        return HttpResponse('有关联项请先删除子项')
     else:
         entry.delete()
         return HttpResponseRedirect('/interfapp/projconf')
@@ -106,7 +106,7 @@ def owdel(request,id):
     entry = get_object_or_404(Owner,pk=int(id))
     p = Owner.objects.get(id=id)
     if ( ( p.project_set.all().count()>0) or (p.case_set.all())>0 ) :
-        return HttpResponse('有关联项不能删除')
+        return HttpResponse('有关联项请先删除子项')
     else:
         print('无关联',entry)
         entry.delete()
@@ -124,9 +124,28 @@ def owupd(request,id):
         data = Owner.objects.filter(id=int(id))
         return  render(request,'owupd.html',{'data':data})
 
+@csrf_exempt
 def intfcf(request):
+    if request.method=='POST':
+        id = request.POST[u'id']
+        interfName = request.POST[u'interfName']
+        projectName = request.POST[u'projectName']
+
+        if id:
+            data = Interfaces.objects.filter(id=int(id)).order_by("interfName")
+        elif interfName :
+            data = Interfaces.objects.filter(interfName=interfName).order_by("interfName")
+            if interfName and projectName:
+                p = Project.objects.get(projectName=projectName)
+                data = Interfaces.objects.filter(interfName=interfName,projectName=p.id).order_by("interfName")
+        elif projectName :
+            p = Project.objects.get(projectName=projectName)
+            data = Interfaces.objects.filter(projectName=p.id).order_by("interfName")
+        else:
+            data = Interfaces.objects.all().order_by("interfName")
+    else:
+        data = Interfaces.objects.all().order_by("interfName")
     limit = 10 # 每页显示的记录数
-    data = Interfaces.objects.all().order_by("interfName")
     paginator = Paginator(data, limit)  # 实例化一个分页对象
     page = request.GET.get('page')  # 获取页码
     try:
@@ -150,7 +169,8 @@ def intfadd(request):
             interfPath = data['interfPath']
             interfMethod = data['interfMethod']
             interfParams = data['interfParams']
-            data = Interfaces(projectName=projectName,interfName=interfName,interfDns=interfDns,
+            header = data['header']
+            data = Interfaces(projectName=projectName,interfName=interfName,interfDns=interfDns,header=header,
              interfPath=interfPath,interfParams=interfParams,interfMethod=interfMethod)
             data.save()
             return HttpResponseRedirect('/interfapp/intfcf/')
@@ -169,7 +189,8 @@ def intfupd(request,id):
     if request.method=='POST':
         interfName = request.POST['interfName']
         interfParams = request.POST['interfParams']
-        Interfaces.objects.filter(id=int(id)).update(interfName=interfName,interfParams=interfParams)
+        header=request.POST['header']
+        Interfaces.objects.filter(id=int(id)).update(interfName=interfName,interfParams=interfParams,header=header)
         return HttpResponseRedirect('/interfapp/intfcf')
     else:
         data = Interfaces.objects.filter(id=int(id))
@@ -207,26 +228,45 @@ def sendreq(request):
             url1=i.interfDns
             url2=i.interfPath
             data=i.interfParams
+            headers1=i.header
         url=(url1+'/'+url2).encode('utf-8')
         # 添加header
-        headers1 = {'Content-Type':'application/x-www-form-urlencoded'}
+        # headers1 = {'Content-Type':'application/x-www-form-urlencoded'}
         data1=eval(data) #将unicode类型转换为字典类型
-        responses = requests.post(url,headers=headers1,data=data1)
+        header=eval(headers1)
+        if header["Content-Type"]=="application/json":
+            data1=json.dumps(data1)
+        responses = requests.post(url,headers=header,data=data1)
         return HttpResponse(responses)
 
 def intfdel(request,id):
     x = get_object_or_404(Interfaces,pk=int(id))
     p = Interfaces.objects.get(id=id)
     if ( p.case_set.all().count()>0)  :
-        return HttpResponse('有关联项不能删除')
+        return HttpResponse('有关联项请先删除子项')
     else:
         print('无关联',p)
         p.delete()
     return HttpResponseRedirect('/interfapp/intfcf/')
 
+@csrf_exempt
 def casecf(request):
+    if request.method=='POST':
+        id = request.POST[u'id']
+        interfName = request.POST[u'interfName']
+        projectName = request.POST[u'projectName']
+        print interfName
+        if id:
+            data = Case.objects.filter(id=int(id)).order_by("projectName","interfName")
+        elif  interfName :
+            t=Interfaces.objects.get(interfName=interfName)
+            data = Case.objects.filter(interfName=t.id).order_by("summary")
+        else:
+            p = Project.objects.get(projectName=projectName)
+            data = Case.objects.filter(projectName=p.id).order_by("summary")
+    else:
+        data = Case.objects.all().order_by("projectName","interfName") 
     limit = 10 # 每页显示的记录数
-    data = Case.objects.all().order_by("summary") #.values('id','summary','details','owner','project')
     paginator = Paginator(data, limit)  # 实例化一个分页对象
     page = request.GET.get('page')  # 获取页码
 
@@ -280,36 +320,6 @@ def caseupd(request,id):
         data = Case.objects.filter(id=int(id))
         return render(request,'caseupd.html',{'data':data})
 
-# 用例查询
-def caseqry(request):
-    data1 = Case.objects.all()
-    if request.method=='GET':
-        limit = 10
-        id = request.GET['id']
-        interfName=request.GET['interfName']
-        print (interfName)
-        projectName=request.GET['projectName']
-        # actname = Interfaces.objects.get(id=interfName)
-        # print (actname.interfName)
-        print (id)
-        print(int(id)>0)
-        if int(id)>0 :
-            data = Case.objects.filter(id=id).order_by("summary")
-        # elif interfName is not None  and projectName is not None:
-        #     data = Case.objects.filter(projectName=projectName,interfName_id=interfName).order_by("summary")
-        # elif interfName is not None:
-        #     data = Case.objects.filter(interfName_id=interfName).order_by("summary")
-        # else:
-        #     data = Case.objects.all()
-        paginator = Paginator(data, limit)  # 实例化一个分页对象
-        page = request.GET.get('page')  # 获取页码
-        try:
-            data = paginator.page(page)  # 获取某页对应的记录
-        except PageNotAnInteger:  # 如果页码不是个整数
-            data = paginator.page(1)  # 取第一页的记录
-        except EmptyPage:  # 如果页码太大，没有相应的记录
-            data = paginator.page(paginator.num_pages)
-    return render(request,'casecf.html',locals())
 @csrf_exempt
 def caseclo(request,id):
     if request.method=='POST':

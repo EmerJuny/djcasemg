@@ -87,26 +87,46 @@ window.onload = function() {
        <span class="pull-right margin-bottom-5">
            <!--<select name="接口名称"  form={{form.interfName}}已有接口</select>-->
            <a  class="btn btn-info btn-small"  id="modal-9" href="{% url 'caseadd' %}" role="button" data-toggle="modal">
-               <i class="icon-plus icon-white"></i> 添加用例</a></span>
+               <i class="icon-plus icon-white"></i>
+               添加用例
+           </a>
+       </span>
+       <!--<span class="pull-right margin-bottom-5">-->
+           <!--<a  class="btn btn-info btn-small"  id="modal-10" href="{% url 'casecf' %}" role="button" data-toggle="modal">-->
+               <!--<i class="icon-search icon-white"></i>-->
+               <!--查询-->
+           <!--</a>-->
+       <!--</span>-->
+
        <strong>接口用例</strong>
    </div>
 
+     <!--查询form    -->
+    <form  method="post" action="">
+        <table class="table table-bordered">
+            <tr>
+                <td align="right">
+                    <input id="id" name="id" type="text" style="width:60px;" placeholder="用例Id" />
+                    <input id="interfName" name="interfName" type="text" placeholder="接口名称" />
+                    <input id="projectName" name="projectName" type="text" placeholder="项目名称" />
+                    <input type="submit"  class="btn btn-info " href="{% url 'casecf' %} " value="查询" />
+                </td>
+            </tr>
+        </table>
+    </form>
+
      <form action="" method="get" role="form">
          <div class="form-inline"></div>
-     </form>
          <table class="table table-bordered table-striped table-hover">
-             <!--{{form.as_table}}-->
-
-     <!--<table class="table table-bordered table-striped table-hover">-->
      <tbody>
        <tr align="left">
            <td width="20" nowrap="nowrap">Id</td>
-           <td width="20" nowrap="nowrap">接口Id</td>
+           <td width="70" nowrap="nowrap">所属项目</td>
+           <!--<td width="20" nowrap="nowrap">接口Id</td>-->
            <td width="70" nowrap="nowrap">接口名称</td>
-           <td width="100" nowrap="nowrap"><strong>用例摘要</strong></td>
+           <td width="100" nowrap="nowrap">用例摘要</td>
            <!--<td width="80" nowrap="nowrap">用例详情</td>-->
            <td width="120" nowrap="nowrap">检查点</td>
-           <td width="70" nowrap="nowrap">所属项目</td>
            <td width="50" nowrap="nowrap">接口路径</td>
            <td width="160" nowrap="nowrap">请求值</td>
            <td width="30" nowrap="nowrap">tester</td>
@@ -115,12 +135,12 @@ window.onload = function() {
        {% for item in data %}
        <tr align="left">
            <td nowrap="nowrap">{{item.id}}</td>
-           <td nowrap="nowrap">{{item.interfName.id}}</td>
+           <td nowrap="nowrap">{{item.projectName}}</td>
+           <!--<td nowrap="nowrap">{{item.interfName.id}}</td>-->
            <td nowrap="nowrap">{{item.interfName}} </td>
            <td nowrap="nowrap">{{item.summary}}</td>
            <!--<td nowrap="nowrap">{{item.details}}</td>-->
-           <td nowrap="nowrap" style="color:green;">{{item.checkPoint}}</td>
-           <td nowrap="nowrap">{{item.projectName}}</td>
+           <td nowrap="nowrap" style="color:red;" >{{item.checkPoint}}</td>
            <td nowrap="nowrap">{{item.interfName.interfPath}}</td>
            <td nowrap="nowrap" title="{{item.interfName.interfParams}}"><div style="width:200px;overflow-x:hidden;overflow-y:hidden;">{{item.interfName.interfParams}}</div></td>
            <td nowrap="nowrap">{{item.name}}</td>
@@ -132,7 +152,7 @@ window.onload = function() {
        {% endfor %}
      </tbody>
     </table>
-
+    </form>
 <p>
 	{% if data.has_previous %}
 		<a href="?page={{ data.previous_page_number }}">上一页</a>

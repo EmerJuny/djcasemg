@@ -38,7 +38,6 @@ urlpatterns = [
     url(r'^caseclo-(?P<id>\d+)/$',views.caseclo,name='caseclo'),
     url(r'^intfupd-(?P<id>\d+)/$',views.intfupd,name='intfupd'),
     url(r'^intfclo-(?P<id>\d+)/$',views.intfclo,name='intfclo'),
-    url(r'^caseqry/$',views.caseqry,name='caseqry'),
 
 
 ]
