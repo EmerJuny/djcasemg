@@ -120,7 +120,6 @@ window.onload = function() {
          <table class="table table-bordered table-striped table-hover">
      <tbody>
        <tr align="left">
-           <td width="20" nowrap="nowrap">Id</td>
            <td width="70" nowrap="nowrap">所属项目</td>
            <!--<td width="20" nowrap="nowrap">接口Id</td>-->
            <td width="70" nowrap="nowrap">接口名称</td>
@@ -130,11 +129,11 @@ window.onload = function() {
            <td width="50" nowrap="nowrap">接口路径</td>
            <td width="160" nowrap="nowrap">请求值</td>
            <td width="30" nowrap="nowrap">tester</td>
+           <td width="20" nowrap="nowrap">Id</td>
            <td width="30" nowrap="nowrap">操作</td>
        </tr>
        {% for item in data %}
        <tr align="left">
-           <td nowrap="nowrap">{{item.id}}</td>
            <td nowrap="nowrap">{{item.projectName}}</td>
            <!--<td nowrap="nowrap">{{item.interfName.id}}</td>-->
            <td nowrap="nowrap">{{item.interfName}} </td>
@@ -144,6 +143,7 @@ window.onload = function() {
            <td nowrap="nowrap">{{item.interfName.interfPath}}</td>
            <td nowrap="nowrap" title="{{item.interfName.interfParams}}"><div style="width:200px;overflow-x:hidden;overflow-y:hidden;">{{item.interfName.interfParams}}</div></td>
            <td nowrap="nowrap">{{item.name}}</td>
+           <td nowrap="nowrap">{{item.id}}</td>
            <td nowrap="nowrap"><a href="{% url 'caseupd' item.id %}" onclick="">编辑</a>
                <a href="{% url 'intfrun' item.id %}" onclick="">执行</a>
                <a href="{% url 'caseclo' item.id %}" onclick="">复制</a>

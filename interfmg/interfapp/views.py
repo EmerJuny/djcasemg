@@ -142,9 +142,9 @@ def intfcf(request):
             p = Project.objects.get(projectName=projectName)
             data = Interfaces.objects.filter(projectName=p.id).order_by("interfName")
         else:
-            data = Interfaces.objects.all().order_by("interfName")
+            data = Interfaces.objects.all().order_by("projectName","interfName")
     else:
-        data = Interfaces.objects.all().order_by("interfName")
+        data = Interfaces.objects.all().order_by("projectName","interfName")
     limit = 10 # 每页显示的记录数
     paginator = Paginator(data, limit)  # 实例化一个分页对象
     page = request.GET.get('page')  # 获取页码
@@ -255,17 +255,21 @@ def casecf(request):
         id = request.POST[u'id']
         interfName = request.POST[u'interfName']
         projectName = request.POST[u'projectName']
-        print interfName
         if id:
-            data = Case.objects.filter(id=int(id)).order_by("projectName","interfName")
-        elif  interfName :
-            t=Interfaces.objects.get(interfName=interfName)
-            data = Case.objects.filter(interfName=t.id).order_by("summary")
-        else:
+            data = Case.objects.filter(id=int(id)).order_by("interfName")
+        elif interfName :
+            intf = Interfaces.objects.get(interfName=interfName)
+            data = Case.objects.filter(interfName=intf.id).order_by("interfName")
+            if interfName and projectName:
+                p = Project.objects.get(projectName=projectName)
+                data = Case.objects.filter(interfName=intf.id,projectName=p.id).order_by("interfName")
+        elif projectName :
             p = Project.objects.get(projectName=projectName)
-            data = Case.objects.filter(projectName=p.id).order_by("summary")
+            data = Case.objects.filter(projectName=p.id).order_by("interfName")
+        else:
+            data = Case.objects.all().order_by("interfName")
     else:
-        data = Case.objects.all().order_by("projectName","interfName") 
+        data = Case.objects.all().order_by("interfName","projectName")
     limit = 10 # 每页显示的记录数
     paginator = Paginator(data, limit)  # 实例化一个分页对象
     page = request.GET.get('page')  # 获取页码

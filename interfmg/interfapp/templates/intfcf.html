@@ -107,7 +107,6 @@ window.onload = function() {
          <table class="table table-bordered table-striped table-hover" >
             <tbody>
              <tr align="left">
-               <td width="20" nowrap="nowrap"><strong>Id</strong></td>
                <td width="30" nowrap="nowrap"><strong>项目名称</strong></td>
                <td width="40" nowrap="nowrap"><strong>接口名称</strong></td>
                <!--<td width="30" nowrap="nowrap"><strong>项目名称</strong></td>-->
@@ -118,11 +117,11 @@ window.onload = function() {
                <td width="200" nowrap="nowrap"><strong>请求参数</strong></td>
                <td width="30" nowrap="nowrap"><strong>请求方法</strong></td>
                <!--<td width="60" nowrap="nowrap"><strong>创建时间</strong></td>-->
+               <td width="20" nowrap="nowrap"><strong>Id</strong></td>
                <td width="30" nowrap="nowrap"><strong>操作</strong></td>
             </tr>
            {% for item in data %}
            <tr align="left">
-               <td nowrap="nowrap">{{item.id}}</td>
                <td nowrap="nowrap">{{item.projectName}}</td>
                <td nowrap="nowrap">{{item.interfName}}</td>
                <!--<td nowrap="nowrap" title="{{item.summary}}"><div style="overflow-x:hidden;overflow-y:hidden;">{{item.summary}}</div></td>-->
@@ -130,6 +129,7 @@ window.onload = function() {
                <td nowrap="nowrap" title="{{item.interfPath}}"><div style="overflow-x:hidden;overflow-y:hidden;">{{item.interfPath}}</div></td>
                <td nowrap="nowrap" title="{{item.interfParams}}"><div style="width:250px;overflow-x:hidden;overflow-y:hidden;">{{item.interfParams}}</div></td>
                <td nowrap="nowrap">{{item.interfMethod}}</td>
+               <td nowrap="nowrap">{{item.id}}</td>
                <td nowrap="nowrap"><a href="{% url 'intfupd' item.id %}" onclick="">编辑</a>
                <a href="{% url 'intfclo' item.id %}" onclick="">复制</a>
                <a href="{% url 'intfdel' item.id %}" onclick="return confirm('确认删除吗？')" >删除</a>
