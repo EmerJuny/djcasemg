@@ -130,6 +130,7 @@ window.onload = function() {
            <td width="160" nowrap="nowrap">请求值</td>
            <td width="30" nowrap="nowrap">tester</td>
            <td width="20" nowrap="nowrap">Id</td>
+           <td width="20" nowrap="nowrap">结果</td>
            <td width="30" nowrap="nowrap">操作</td>
        </tr>
        {% for item in data %}
@@ -144,6 +145,15 @@ window.onload = function() {
            <td nowrap="nowrap" title="{{item.interfName.interfParams}}"><div style="width:200px;overflow-x:hidden;overflow-y:hidden;">{{item.interfName.interfParams}}</div></td>
            <td nowrap="nowrap">{{item.name}}</td>
            <td nowrap="nowrap">{{item.id}}</td>
+               {% ifequal item.interfName.result "成功" %}
+                    <td align="center"><span class="label label-success">成功</span></td>
+               {% endifequal %}
+               {% ifequal item.interfName.result "失败" %}
+                    <td align="center"><span class="label label-warning">失败</span></td>
+               {% endifequal %}
+               {% if not item.interfName.result  %}
+                    <td align="center"><span class="label label-info">None</span></td>
+               {% endif %}
            <td nowrap="nowrap"><a href="{% url 'caseupd' item.id %}" onclick="">编辑</a>
                <a href="{% url 'intfrun' item.id %}" onclick="">执行</a>
                <a href="{% url 'caseclo' item.id %}" onclick="">复制</a>

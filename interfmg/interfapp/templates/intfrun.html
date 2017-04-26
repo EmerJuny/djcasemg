@@ -116,8 +116,8 @@ window.onload = function() {
        {% if item.checkPoint %}
        <tr>
          <td nowrap="nowrap" bgcolor="#f1f1f1">返回值检查</td>
-            <td><input id="checkPoint" style="width:450px;color:red" type="text" aria-readonly="true" name="path" value="{{item.checkPoint}}"></td>
-       </tr>
+         <td><input id="checkPoint" style="width:450px;color:red" type="text" aria-readonly="true" name="path" value="{{item.checkPoint}}"></td>
+        </tr>
        {% endif %}
        {% if item.interfName.interfParams %}
        <tr>
@@ -126,20 +126,24 @@ window.onload = function() {
        </tr>
        {% endif %}
     </table>
-
-        <!--<input id="interfParams"   name="interfParams" value="{{item.interfParams}}">-->
-		<!--<div id="interfParams" style="border:1px solid green;background:#5bc0de;height:auto;min-height:200px;width=800px" {{item.interfParams}} ></div>-->
-
-    <!--<table class="margin-bottom-10  table no-border">-->
-        <!--<tr>-->
-            <!--<td class="text-center"><input type="button" id="sendbtn" value="发送"-->
-                                           <!--style="width:80px;"/></td>-->
-        <!--</tr>-->
-    <!--</table>-->
     {% endfor %}
-    <input id="sendbtn" type="button" class="btn btn-info" value="发送"></br>
     </div>
     </form>
+    {% for item in data %}
+    <form action="" ROLE="form" method="post">
+    <div style="width:810px;margin:left;">
+
+    <table class="table table-bordered">
+    <tr>
+     <td><input id="sendbtn" type="button" class="btn btn-info" value="发送"></td>
+     <td width=8% nowrap="nowrap" align="right" bgcolor="#f1f1f1">执行结果</td>
+         <td  width=8% align="right"><select id="vresult" name="vresult" class="selectpicker" data-live-search="true"><option selected>{{item.interfName.result}}</option><option>成功</option><option>失败</option></select></td>
+         <td><input  type="submit" id="savere" name="savere" type="button" href="{% url 'intfrun' item.id %} " class="btn btn-info" value="保存结果"/></td>
+     </tr></table>
+
+     </div>
+    </form>
+    {% endfor %}
 
     <span>接口返回值：</span>
     <div id="respval"  style="border:1px solid green;background:yellow;height:auto;min-height:190px;width=800px"></div>

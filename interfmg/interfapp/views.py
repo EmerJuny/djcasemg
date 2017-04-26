@@ -180,9 +180,18 @@ def intfadd(request):
         form = InterfaceForm()
         return render_to_response('intfadd.html', {'form': form}, context_instance=RequestContext(request))
 
+@csrf_exempt
 def intfrun(request,id):
-    reqobj = Case.objects.filter(id=id)
-    return render(request,'intfrun.html',{'data':reqobj})
+    inid = Case.objects.get(id=id)
+    data = Interfaces.objects.get(id=inid.interfName.id)
+    if request.method=="GET":
+        reqobj = Case.objects.filter(id=id)
+        return render(request,'intfrun.html',{'data':reqobj})
+    if request.method=="POST":
+        result = request.POST['vresult']
+        Interfaces.objects.filter(id=inid.interfName.id).update(result=result)
+        return HttpResponseRedirect('/interfapp/casecf')
+
 
 @csrf_exempt
 def intfupd(request,id):
@@ -195,6 +204,8 @@ def intfupd(request,id):
     else:
         data = Interfaces.objects.filter(id=int(id))
         return render(request,'intfupd.html',{'data':data})
+
+
 
 @csrf_exempt
 # 复制接口同时打开编辑页面
